@@ -7,33 +7,42 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-//Este codigo, no corresponde totalmente al backend, mas bien funciona como controlador dentro de react
-
   const handleLogin = async () => {
+    try {
+      const response = await axios.post(
+        'http://localhost:3001/api/login',
+        { email: username, password: password },
+        { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
+      );
+      const user = response.data; // Obtiene el usuario devuelto por el backend
+      console.log(user);
 
-    //llamamos al backend para solicitarle el inicio de sesion (este nos deberia devolver el usuario iniciado)
-    //En pocas palabras, axios llama a la ruta (backend mediante POST) de api/login y invoca a la ruta que se encuentra
-    //dentro del archivo apiRoutes.js
-    await axios.post('http://localhost:3001/api/login', {email:username, password:password}, {headers:{'Content-Type':'application/x-www-form-urlencoded'}})
-      .then(async (user ) => {
-        console.log(user);
-
-        //Si todo esta bien, nos redirige a la ruta de inicio
-        navigate('/inicio');
-      }).catch((error) => {
-
-        //caso contrario, despliega un error de inicio de sesion
-        console.error('Error de inicio de sesión:', error);
-      });
+      // Si todo está bien, redirige a la ruta de inicio
+      navigate('/main', { state: { user } });
+    } catch (error) {
+      // Caso contrario, muestra un error de inicio de sesión
+      console.error('Error de inicio de sesión:', error);
+    }
   };
 
   return (
-    //Esta es la vista de nuestro componente
     <div>
-      Usuario: <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-      <br />
-      Contraseña: <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      <br />
+      <label htmlFor="username">Email: </label>
+      <input
+        type="text"
+        id="username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+      <br/>
+      <label htmlFor="password">Contraseña: </label>
+      <input
+        type="password"
+        id="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <br/>
       <button onClick={handleLogin}>Iniciar sesión</button>
     </div>
   );

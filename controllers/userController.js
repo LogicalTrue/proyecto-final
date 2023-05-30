@@ -27,19 +27,15 @@ const getUsers = async (req, res) => {
 };
 
 // Función para obtener los datos de un usuario específico de Keyrock
-const getUser = async (req, res) => {
-  try {
-    const userId = req.params.id;
-
-    // Realizar una solicitud a la API de Keyrock para obtener los datos de un usuario
-    const response = await axios.get(`https://keyrock-api/v1/users/${userId}`);
-
-    const user = response.data;
-
-    res.status(200).json(user);
-  } catch (error) {
+const getUser =  async (req, res) => {
+  // req.session.user.admin   /// Va a ser true si el usuario inciado es admin 
+  token = req.session.token; // req.session.user.token;
+  await keyrock.user.findOne(token).
+    then((users)=>res.status(200).json(users))
+    
+  .catch((error)=>{
     res.status(400).json({ error: 'No se pudo obtener el usuario' });
-  }
+  });
 };
 
 // Función para modificar los datos de un usuario en Keyrock

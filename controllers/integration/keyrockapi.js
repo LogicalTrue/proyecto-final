@@ -108,7 +108,7 @@ const Api = {
 const keyrock={
  user:{
     findAll: (token)=>FilteredTokenizedRequest(['data', "users"], token, Api.GetUsers),
-    findOne: (token, id)=>FilteredTokenizedRequest('data', token, Api.GetUser, id),
+    findOne: (token, id)=>FilteredTokenizedRequest('data', id ,token, Api.GetUser),
     findByToken: (token)=>FilteredTokenizedRequest(['data','User'], token, Api.UserOfToken),
     update: (token, id)=>FilteredTokenizedRequest('data', token, Api.UpdateUser, id),
     create: (token, body)=>FilteredTokenizedRequest(['data', 'user'], token, Api.CreateUser, body),

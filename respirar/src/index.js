@@ -4,16 +4,21 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LoginForm from './Components/LoginForm';
-import CallbackPage from './Components/CallbackPage';
+import Main from './Components/Main';
+import Users from './Components/Users'
+import Profile from './Components/Profile';
+import Roles from './Components/Roles';
 
 //Aca configuramos solamente rutas y a que componente va dirigido
 
 function App() {
   return (
     <Routes>
-      <Route path="/login" element={<LoginForm />} />
-      <Route path="/inicio" element={<Inicio />} />
-      <Route path="/callback" element={<CallbackPage />} />
+      <Route path="/" element={<LoginForm />} />
+      <Route path="/main" element={<Main />} />
+      <Route path="/users" element={<Users />} />
+      <Route path="/roles" element={<Roles />} />
+      <Route path="/profile" element={<Profile />} />
     </Routes>
   );
 }
