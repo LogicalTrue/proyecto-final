@@ -10,6 +10,10 @@
 
 5-Configurar archivo .env
 
-6-Ejecutar en la carpeta principal "npm start"
+# Test
 
-Deben tener el keyrock ejecutandose
+1-Ejecutar comando npm start sobre la carpeta principal (proyecto-final)
+
+2-Testea http://localhost:3001/login
+
+3-Ingresar con usuario admin@test.com y 1234
