@@ -1,7 +1,9 @@
 const axios = require('axios');
 const config = require('./config.js');
 
-function TokenizedRequest(token, action, params=null){return params==null? axios(action(token)):axios(action(token, params));}
+function TokenizedRequest(token, action, params=null){
+    return params==null? axios(action(token)):axios(action(token, params));
+}
 
 function FilterByKeys(key, object){
     if(typeof key === 'number' || typeof key === 'string' || key instanceof String ) return object[key]
@@ -11,24 +13,35 @@ function FilterByKeys(key, object){
             else break;
     return object;
 }
-function OmitKeys(keys, object){
-    if(Array.isArray(keys))
-    for(let k of keys) 
-        if(k in object) delete object[k];
-        else continue;
+function _deleteKey(key, object, complex=true){
+    if(key in object) delete object[key];
+    else if(complex && key.indexOf('.')>-1){
+        let k = key.substr(0,key.indexOf('.'));
+        if(k in object) object[k]=_deleteKey(key.substr(k.length+1),object[k],complex);
+    }
     return object;
 }
-function FilterKeys(keys, object){
+function OmitKeys(keys, object, complex=true){
+    if(typeof keys === 'number' || typeof keys === 'string' || keys instanceof String ){
+        _deleteKey(keys, object, complex);
+    }
+    else if(Array.isArray(keys))
+     for(let k of keys) _deleteKey(k, object, complex);
+     return object;
+}
+function FilterKeys(keys, object){ /// No funciona en el modo complejo, porque el primero que filtra elimina el el resto de elementos de nivel inferior
     let obj={};
-     if(Array.isArray(keys))
+    if(typeof keys === 'number' || typeof keys === 'string' || keys instanceof String ){
+        if(keys in object) return {keys:object[keys]};
+    }
+    else if(Array.isArray(keys))
      for(let k of keys) 
          if(k in object) obj[k]=object[k];
-         else continue;
      return obj;
  }
 
 function FilteredTokenizedRequest(key, token, action, params){
-    return (params==null?TokenizedRequest(token, action):TokenizedRequest(token, action, params)).
+    return TokenizedRequest(token, action, params).
     then((response)=>{
         return FilterByKeys(key, response);
     });
@@ -88,18 +101,22 @@ const Api = {
         method: 'POST',
         headers: ApiHeader(token),
         data: body
+        
     }),
-    UpdateUser: (token, data)=>({
-        baseURL: ApiRoute,
-        url: `/users/${data.id}`,
-        method: 'PATCH',
-        headers: ApiHeader(token),
-        data:{
-            user: OmitKeys(['id'], data) /// Este omite los datos que no necesitas 
-            ///user: FilerKeys(['username', 'password', 'admin'], data) ///Este filtra solo lo que queres
-        }
-    }),
+    //solo le estas pasando el id, cuando deberia ser el body completo la concha de tu madre
+    
+     UpdateUser: (token, data)=>({
+         baseURL: ApiRoute,
+         url: `/users/${data.user.id}`,
+         method: 'PATCH',
+         headers: ApiHeader(token),
+         data: OmitKeys(['user.id'], data),
+        
+     }),
 }
+// }
+// user: OmitKeys(['id'], data) /// Este omite los datos que no necesitas 
+// /user: FilerKeys(['username', 'password', 'admin'], data) ///Este filtra solo lo que queres--__
 
 //Para agregar una nueva funcionalidad respecto a keyrock, configurar aqui, copy y paste
 //Luego en api, que esta arriba, solo es ver la documentacion, copiar y pegar o tomar como referencia
@@ -107,10 +124,13 @@ const Api = {
 
 const keyrock={
  user:{
+    //key, token, action, params
     findAll: (token)=>FilteredTokenizedRequest(['data', "users"], token, Api.GetUsers),
-    findOne: (token, id)=>FilteredTokenizedRequest('data', id ,token, Api.GetUser),
+    findOne: (token, id)=>FilteredTokenizedRequest('data', token, Api.GetUser, id),
     findByToken: (token)=>FilteredTokenizedRequest(['data','User'], token, Api.UserOfToken),
-    update: (token, id)=>FilteredTokenizedRequest('data', token, Api.UpdateUser, id),
+
+    update: (token, body)=>FilteredTokenizedRequest('data', token, Api.UpdateUser, body),
+    
     create: (token, body)=>FilteredTokenizedRequest(['data', 'user'], token, Api.CreateUser, body),
 },
 

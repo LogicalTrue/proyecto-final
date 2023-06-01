@@ -27,9 +27,9 @@ const Main = () => {
 
   return (
     <div>
-      <h1>Página de inicio</h1>
       {isAdmin ? (
         <div>
+           <h1>Panel de administrador</h1>
           <ul>
             <li>
               <button onClick={() => navigate('/users', { state: state })}>Ver usuarios</button>
@@ -45,8 +45,11 @@ const Main = () => {
         </div>
       ) : (
         <div>
-          <p>Eres un usuario comun por lo que solo podras editar el perfil</p>
+           <h1>Panel de usuario</h1>
+          <br></br>
           <button onClick={() => navigate('/profile', { state })}>Ver perfil</button>
+          <br></br>
+          <button onClick={() => navigate('/editprofile', { state })}>Editar perfil</button>
           <br></br>
           <button onClick={handleLogout}>Cerrar sesión</button>
         </div>

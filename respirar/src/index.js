@@ -8,6 +8,7 @@ import Main from './Components/Main';
 import Users from './Components/Users'
 import Profile from './Components/Profile';
 import Roles from './Components/Roles';
+import EditProfile from './Components/EditProfile';
 
 //Aca configuramos solamente rutas y a que componente va dirigido
 
@@ -19,6 +20,7 @@ function App() {
       <Route path="/users" element={<Users />} />
       <Route path="/roles" element={<Roles />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/editprofile" element={<EditProfile />} />
     </Routes>
   );
 }
