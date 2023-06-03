@@ -7,7 +7,7 @@ const roleController = require('../controllers/roleController');
 const router = express.Router();
 
 // Rutas de autenticación
-//router.post('/register', authController.register);
+router.post('/register', userController.createUser);
 
 //Se invoca el archivo login, mediante un axios y luego se ejecuta un controlador, en este caso
 //el authController.login, que se encuentra en la carpeta controllers

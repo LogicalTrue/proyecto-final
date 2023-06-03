@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+
+
+
 const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -25,26 +28,33 @@ const LoginForm = () => {
     }
   };
 
+  const handleRegister = () => {
+    navigate('/register');
+  };
+
+
+
   return (
     <div>
-      <label htmlFor="username">Email: </label>
-      <input
-        type="text"
-        id="username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <br/>
-      <label htmlFor="password">Contraseña: </label>
-      <input
-        type="password"
-        id="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <br/>
-      <button onClick={handleLogin}>Iniciar sesión</button>
-    </div>
+  <label htmlFor="username">Email: </label>
+  <input
+    type="text"
+    id="username"
+    value={username}
+    onChange={(e) => setUsername(e.target.value)}
+  />
+  <br/>
+  <label htmlFor="password">Contraseña: </label>
+  <input
+    type="password"
+    id="password"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+  />
+  <br/>
+  <button onClick={handleLogin}>Iniciar sesión</button>
+  <button onClick={handleRegister}>Registrar</button> 
+</div>
   );
 };
 

@@ -128,6 +128,7 @@ const keyrock={
     findAll: (token)=>FilteredTokenizedRequest(['data', "users"], token, Api.GetUsers),
     findOne: (token, id)=>FilteredTokenizedRequest('data', token, Api.GetUser, id),
     findByToken: (token)=>FilteredTokenizedRequest(['data','User'], token, Api.UserOfToken),
+    findUserByEmail: (token, username) => FilteredTokenizedRequest(['data', 'users'], token, Api.GetUsers, { username }),
 
     update: (token, body)=>FilteredTokenizedRequest('data', token, Api.UpdateUser, body),
     
