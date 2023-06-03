@@ -31,7 +31,7 @@ const RegisterForm = () => {
 
       setSuccess('Registro exitoso. ¡Ahora puedes iniciar sesión!');
       setError('');
-      // navigate('/main', { state: { user } });
+      // navigate('/post');
     } catch (error) {
       setError('Error de registración. Por favor, verifica tus credenciales.');
       console.error('Error de registración:', error);

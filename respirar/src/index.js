@@ -10,6 +10,7 @@ import Profile from './Components/Profile';
 import Roles from './Components/Roles';
 import EditProfile from './Components/EditProfile';
 import RegisterForm from './Components/RegisterForm';
+import PostRegister from './Components/PostRegister';
 
 //Aca configuramos solamente rutas y a que componente va dirigido
 
@@ -23,6 +24,7 @@ function App() {
       <Route path="/profile" element={<Profile />} />
       <Route path="/editprofile" element={<EditProfile />} />
       <Route path="/register" element={<RegisterForm/>} />
+      <Route path="/postRegister" element={<PostRegister/>} />
     </Routes>
   );
 }
