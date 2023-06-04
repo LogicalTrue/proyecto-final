@@ -7,7 +7,7 @@ const roleController = require('../controllers/roleController');
 const router = express.Router();
 
 // Rutas de autenticación
-router.post('/register', userController.createUser);
+// router.post('/register', userController.createUser);
 
 //Se invoca el archivo login, mediante un axios y luego se ejecuta un controlador, en este caso
 //el authController.login, que se encuentra en la carpeta controllers
@@ -24,8 +24,9 @@ router.post('/login', authController.login);
 // Rutas de usuarios
 router.get('/users', userController.getUsers);
 router.get('/users/:id', userController.getUser);
-router.patch('/users/:id', userController.updateUser);
+router.patch('/users/', userController.updateUser);
 router.post('/users', userController.createUser);
+router.post('/changeCreateUserAsPublic', userController.changeCreateUserAsPublic);
 // router.delete('/users/:id', userController.deleteUser);
 
 // Rutas de roles

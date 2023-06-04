@@ -23,12 +23,11 @@ const RegisterForm = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:3001/api/register',
-        { email: username, password: password }
+        'http://localhost:3001/api/users',
+        {username: username, email: username, password: password },
       );
-      const user = response.data; // Obtiene el usuario devuelto por el backend
+      const user = response.data; // Obtiene el usuario devuelto por el backend, ...... acordate que keyrockapi filtra el response
       console.log(user);
-
       setSuccess('Registro exitoso. ¡Ahora puedes iniciar sesión!');
       setError('');
       // navigate('/post');

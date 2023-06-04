@@ -41,9 +41,12 @@ function FilterKeys(keys, object){ /// No funciona en el modo complejo, porque e
  }
 
 function FilteredTokenizedRequest(key, token, action, params){
+    if(config.api.debug) console.log("Send and Filter (action, params, token):",action, params, token, `Filter: ${key}`);
     return TokenizedRequest(token, action, params).
     then((response)=>{
-        return FilterByKeys(key, response);
+        let ret = FilterByKeys(key, response);
+        if(config.api.debug) console.log(`FilteredData: ${ret}`)
+        return ret;
     });
 }
 
@@ -70,12 +73,19 @@ const Api = {
         headers: AuthHeader,
         data: token!=null?{token:token}:data
     }),
-    GetUsers: (token)=>({
+    DeleteSession: (token)=>({
         baseURL: ApiRoute,
-        url: `/users`,
-        method: 'GET',
+        url: `/auth/tokens`,
+        method: 'DELETE',
         headers: ApiHeader(token)
     }),
+    GetUsers: (token) => ({
+          baseURL: ApiRoute,
+          url: '/users',
+          method: 'GET',
+          headers:  ApiHeader(token)
+        }
+    ),
     GetUser: (token, id)=>({
         baseURL: ApiRoute,
         url: `/users/${id}`,
@@ -95,15 +105,14 @@ const Api = {
         headers: ApiHeader(token),
         data:data
     }),
-    CreateUser: (token, body)=>({
-        baseURL: ApiRoute,
-        url: `/users`,
-        method: 'POST',
-        headers: ApiHeader(token),
-        data: body
-        
+    CreateUser: (token, body) => ({      
+          baseURL: ApiRoute,
+          url: `/users`,
+          method: 'POST',
+          headers: ApiHeader(token),
+          data: body
     }),
-    //solo le estas pasando el id, cuando deberia ser el body completo la concha de tu madre
+
     
      UpdateUser: (token, data)=>({
          baseURL: ApiRoute,
@@ -128,18 +137,17 @@ const keyrock={
     findAll: (token)=>FilteredTokenizedRequest(['data', "users"], token, Api.GetUsers),
     findOne: (token, id)=>FilteredTokenizedRequest('data', token, Api.GetUser, id),
     findByToken: (token)=>FilteredTokenizedRequest(['data','User'], token, Api.UserOfToken),
-    findUserByEmail: (token, username) => FilteredTokenizedRequest(['data', 'users'], token, Api.GetUsers, { username }),
-
     update: (token, body)=>FilteredTokenizedRequest('data', token, Api.UpdateUser, body),
     
-    create: (token, body)=>FilteredTokenizedRequest(['data', 'user'], token, Api.CreateUser, body),
+    create: (token, body) => FilteredTokenizedRequest('data', token, Api.CreateUser, body),
 },
 
  auth:{
     login: (username, password)=>
         FilteredTokenizedRequest(['headers', 'x-subject-token'], null, Api.Login, {name:username, password:password}),
-    refreshToken: (token)=>
-        FilteredTokenizedRequest(['headers', 'x-subject-token'], token, Api.Login)
+    refreshToken: (token)=> FilteredTokenizedRequest(['headers', 'x-subject-token'], token, Api.Login),
+    deleteSession: (token)=>FilteredTokenizedRequest('data', token, Api.DeleteSession),
+    getSessionExpires: (token)=>FilteredTokenizedRequest(['data','expires'], token, Api.UserOfToken),
 },
  apps:{
     create: (token, data) => FilteredTokenizedRequest('data', token, Api.CreateApp, data),

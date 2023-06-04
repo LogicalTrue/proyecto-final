@@ -1,5 +1,6 @@
 // authController.js
 const keyrock = require('./integration/keyrockapi')
+const userController = require('./userController');
 
 // Dentro de este, recibe los parametros post anterior de usuario y contraseña
 // Se los envia a un archivo especial de integracion de keyrock, para comprobar
@@ -13,8 +14,9 @@ const login = async (req, res) => {
     //registrar session!!!!!!!!!!!!!!!!!!!!!!!!!!
 
      req.session.token = token; 
-      await keyrock.user.findByToken(token).then((user)=>{
+      await keyrock.user.findByToken(token).then(async (user)=>{
         req.session.user=user;
+        user["CreateUserAsPublic"]=await userController.getStateCreateUserAsPublic();
         res.status(200).json(user);
     });
 

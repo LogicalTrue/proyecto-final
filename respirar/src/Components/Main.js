@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 const Main = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
-  
+  const CreateUserAsPublic = state.user.CreateUserAsPublic;
   
   useEffect(() => {
     checkAdminStatus();
@@ -14,12 +15,21 @@ const Main = () => {
 
   const checkAdminStatus = () => {
     const isAdminUser = state.user.admin;
+    
     setIsAdmin(isAdminUser);
   };
 
 
   const handleLogout = () => {
+
     navigate('/');
+  };
+
+  const handleChangeCreateUserAsPublic=async()=>{
+      const response = await axios.post('http://localhost:3001/api/changeCreateUserAsPublic', {enable:!CreateUserAsPublic});
+      state.user.CreateUserAsPublic = response.data.enabled;
+      if(state.user.CreateUserAsPublic) navigate('/', { state: state })
+      else navigate('/main', { state: state })
   };
 
   console.log(state);
@@ -31,6 +41,9 @@ const Main = () => {
         <div>
            <h1>Panel de administrador</h1>
           <ul>
+            <li>
+              <button onClick={handleChangeCreateUserAsPublic}>{CreateUserAsPublic?"Deshabilitar ":"Habilitar "} Creacion de Usuarios Publico</button>
+            </li>
             <li>
               <button onClick={() => navigate('/users', { state: state })}>Ver usuarios</button>
             </li>
