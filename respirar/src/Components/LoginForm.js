@@ -32,8 +32,9 @@ const LoginForm = () => {
 
   return (
     <div className="container">
-      <div className="form-group">
-        <label htmlFor="username">Email:</label>
+      <h1 className='display-3 m-3'>Inicio de Sesión</h1>
+      <div className="form-group m-3">
+        <label htmlFor="username">Ingrese su email:</label>
         <input
           type="text"
           className="form-control"
@@ -42,20 +43,21 @@ const LoginForm = () => {
           onChange={(e) => setUsername(e.target.value)}
         />
       </div>
-      <div className="form-group">
-        <label htmlFor="password">Contraseña:</label>
+      <div className="form-group m-3">
+        <label htmlFor="password">Ingrese su contraseña:</label>
         <input
           type="password"
           className="form-control"
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          onKeyPress={handleLogin}
         />
       </div>
-      <button className="btn btn-primary" onClick={handleLogin}>
+      <button className="btn btn-primary m-3" onClick={handleLogin} onKeyPress={handleLogin} >
         Iniciar sesión
       </button>
-      <button className="btn btn-secondary" onClick={handleRegister}>
+      <button className="btn btn-secondary m-3" onClick={handleRegister}>
         Registrar
       </button>
     </div>
