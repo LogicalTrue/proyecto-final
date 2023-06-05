@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
-
-
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
@@ -32,29 +30,35 @@ const LoginForm = () => {
     navigate('/register');
   };
 
-
-
   return (
-    <div>
-  <label htmlFor="username">Email: </label>
-  <input
-    type="text"
-    id="username"
-    value={username}
-    onChange={(e) => setUsername(e.target.value)}
-  />
-  <br/>
-  <label htmlFor="password">Contraseña: </label>
-  <input
-    type="password"
-    id="password"
-    value={password}
-    onChange={(e) => setPassword(e.target.value)}
-  />
-  <br/>
-  <button onClick={handleLogin}>Iniciar sesión</button>
-  <button onClick={handleRegister}>Registrar</button> 
-</div>
+    <div className="container">
+      <div className="form-group">
+        <label htmlFor="username">Email:</label>
+        <input
+          type="text"
+          className="form-control"
+          id="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="password">Contraseña:</label>
+        <input
+          type="password"
+          className="form-control"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </div>
+      <button className="btn btn-primary" onClick={handleLogin}>
+        Iniciar sesión
+      </button>
+      <button className="btn btn-secondary" onClick={handleRegister}>
+        Registrar
+      </button>
+    </div>
   );
 };
 
