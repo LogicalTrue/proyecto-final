@@ -32,7 +32,7 @@ const LoginForm = () => {
 
   return (
     <div className="container">
-      <h1 className='display-3 m-3'>Inicio de Sesión</h1>
+      <h1 className='display-3 m-3'>Iniciar Sesión</h1>
       <div className="form-group m-3">
         <label htmlFor="username">Ingrese su email:</label>
         <input
