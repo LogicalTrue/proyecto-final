@@ -32,8 +32,9 @@ const LoginForm = () => {
 
   return (
     <div className="container">
-      <div className="form-group">
-        <label htmlFor="username">Email:</label>
+      <h1 className='display-3 m-3'>Iniciar Sesión</h1>
+      <div className="form-group m-3">
+        <label htmlFor="username">Ingrese su email:</label>
         <input
           type="text"
           className="form-control"
