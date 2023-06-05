@@ -11,6 +11,8 @@ import Roles from './Components/Roles';
 import EditProfile from './Components/EditProfile';
 import RegisterForm from './Components/RegisterForm';
 import PostRegister from './Components/PostRegister';
+import CreateRole from './Components/CreateRole';
+import AssignRole from './Components/AssignRole';
 
 //Aca configuramos solamente rutas y a que componente va dirigido
 
@@ -21,6 +23,8 @@ function App() {
       <Route path="/main" element={<Main />} />
       <Route path="/users" element={<Users />} />
       <Route path="/roles" element={<Roles />} />
+      <Route path="/createrole" element={<CreateRole />} />
+      <Route path="/assignrole" element={<AssignRole />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/editprofile" element={<EditProfile />} />
       <Route path="/register" element={<RegisterForm/>} />

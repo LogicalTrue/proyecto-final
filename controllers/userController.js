@@ -47,7 +47,6 @@ const changeCreateUserAsPublic = async (req, res) => {
   res.status(200).json({enabled:status});
 };
 
-
 const createUser = async (req, res) => {
   const token = await TokenForCreateUser();
   await keyrock.user.create(token, {user: req.body}).

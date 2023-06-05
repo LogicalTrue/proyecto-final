@@ -30,10 +30,11 @@ router.post('/changeCreateUserAsPublic', userController.changeCreateUserAsPublic
 // router.delete('/users/:id', userController.deleteUser);
 
 // Rutas de roles
-router.post('/roles', roleController.createRole);
+router.post('/roles', roleController.createRole)
+router.put('/roles/assignt', roleController.assigntRole) // ok
 router.get('/roles', roleController.getRoles);
-router.get('/roles/:id', roleController.getRole);
-router.put('/roles/:id', roleController.updateRole);
+// router.get('/roles/:id', roleController.getRole);
+// router.put('/roles/:id', roleController.updateRole);
 // router.delete('/roles/:id', roleController.deleteRole);
 
 module.exports = router;

@@ -51,7 +51,10 @@ const Main = () => {
               <button onClick={() => navigate('/roles', { state: state })}>Ver roles</button>
             </li>
             <li>
-              <button onClick={() => navigate('/profile', { state })}>Ver perfil</button>
+              <button onClick={() => navigate('/createrole', { state: state })}>Crear rol</button>
+            </li>            
+            <li>
+              <button onClick={() => navigate('/assignrole', { state })}>Asignar rol</button>
             </li>
           </ul>
           <button onClick={handleLogout}>Cerrar sesión</button>
