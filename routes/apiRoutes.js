@@ -3,6 +3,7 @@ const express = require('express');
 const authController = require('../controllers/authenticationController');
 const userController = require('../controllers/userController');
 const roleController = require('../controllers/roleController');
+const permissionController = require('../controllers/permissionController')
 
 const router = express.Router();
 
@@ -19,8 +20,6 @@ router.post('/login', authController.login);
 // Rutas protegidas por el middleware de autenticación
 //router.use(authMiddleware);
 
-
-
 // Rutas de usuarios
 router.get('/users', userController.getUsers);
 router.get('/users/:id', userController.getUser);
@@ -36,5 +35,10 @@ router.get('/roles', roleController.getRoles);
 // router.get('/roles/:id', roleController.getRole);
 // router.put('/roles/:id', roleController.updateRole);
 // router.delete('/roles/:id', roleController.deleteRole);
+
+//Rutas de permisos
+
+router.post('/permissions', permissionController.createPermission)
+router.get('/permissions', permissionController.getPermissions)
 
 module.exports = router;

@@ -2,19 +2,29 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
-const AssignRole = () => {
+const AssignPermission = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
   const [roles, setRoles] = useState([]);
-  const [users, setUsers] = useState([]);
+  const [permissions, setpermissions] = useState([]);
   const [selectedRole, setSelectedRole] = useState('');
-  const [selectedUser, setSelectedUser] = useState('');
+  const [selectedPermission, setSelectedPermission] = useState('');
 
   useEffect(() => {
+    fetchPermissions();
     fetchRoles();
-    fetchUsers();
   }, []);
+
+  const fetchPermissions = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/api/permissions');
+      const permissionsData = response.data;
+      setpermissions(permissionsData);
+    } catch (error) {
+      console.error('Error al obtener los permisos:', error);
+    }
+  };
 
   const fetchRoles = async () => {
     try {
@@ -26,34 +36,24 @@ const AssignRole = () => {
     }
   };
 
-  const fetchUsers = async () => {
-    try {
-      const response = await axios.get('http://localhost:3001/api/users');
-      const usersData = response.data;
-      setUsers(usersData);
-    } catch (error) {
-      console.error('Error al obtener los usuarios:', error);
-    }
+  const handlePermissionChange = (e) => {
+    setSelectedPermission(e.target.value);
   };
 
   const handleRoleChange = (e) => {
     setSelectedRole(e.target.value);
   };
 
-  const handleUserChange = (e) => {
-    setSelectedUser(e.target.value);
-  };
-
-  const assignRole = async () => {
+  const AssignPermission = async () => {
     try {
       // Realiza la llamada para asignar el rol seleccionado al usuario seleccionado
-      await axios.put('http://localhost:3001/api/roles/assignt', {
-        roleId: selectedRole,
-        userId: selectedUser,
+      await axios.put('http://localhost:3001/api/permissions/assignt', {
+        permissionId: selectedRole,
+        roleId: selectedPermission,
       });
-      console.log('Rol asignado correctamente');
+      console.log('Permiso asignado correctamente');
     } catch (error) {
-      console.error('Error al asignar el rol:', error);
+      console.error('Error al asignar el permiso:', error);
     }
   };
 
@@ -63,7 +63,7 @@ const AssignRole = () => {
 
   return (
     <div>
-      <h1>Asignar Rol</h1>
+      <h1>Asignar Permiso</h1>
       <div>
         <label htmlFor="role">Rol:</label>
         <select id="role" value={selectedRole} onChange={handleRoleChange}>
@@ -76,21 +76,22 @@ const AssignRole = () => {
         </select>
       </div>
       <div>
-        <label htmlFor="user">Usuario:</label>
-        <select id="user" value={selectedUser} onChange={handleUserChange}>
-          <option value="">Seleccionar usuario</option>
-          {users.map((user) => (
-            <option key={user.id} value={user.id}>
-              {user.username}
+        <label htmlFor="permission">Permiso:</label>
+        <select id="permission" value={selectedPermission} onChange={handlePermissionChange}>
+          <option value="">Seleccionar permiso</option>
+          {permissions.map((permission) => (
+            <option key={permission.id} value={permission.id}>
+              {permission.name}
             </option>
           ))}
         </select>
       </div>
-      <button onClick={assignRole}>Asignar Rol</button>
+
+      <button onClick={AssignPermission}>Asignar Permiso</button>
       <button onClick={backToMain}>Volver</button>
 
     </div>
   );
 };
 
-export default AssignRole;
+export default AssignPermission;
