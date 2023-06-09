@@ -30,6 +30,22 @@ const getPermissions = async (req, res) => {
     });
 };
 
+const assigntPermission = async (req, res) => {
+  token = req.session.token;
+  let data = {
+    appId: config.api.client,
+    roleId: req.body.roleId,
+    permissionId: req.body.permissionId
+  }
+
+  console.log(data)
+  await keyrock.permission.assignpermission(token, data).
+    then((roles)=>res.status(200).json(roles))
+  .catch((error)=>{
+    res.status(400).json({ error: 'No se pudo asignar rol' });
+  });
+};
 
 
-  module.exports = { createPermission, getPermissions };
+
+  module.exports = { createPermission, getPermissions, assigntPermission };

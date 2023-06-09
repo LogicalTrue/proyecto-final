@@ -119,13 +119,19 @@ const Api = {
         headers: ApiHeader(token),
         data: body
     }),
-    UpdateUser: (token, data) => ({
+
+    UpdateUser: (token, data) => {
+
+        console.log("el usuario id es  : " + data.user.id)
+        console.log("el usuario esta habilitado : " + data.user.description)
+
+        return {
         baseURL: ApiRoute,
         url: `/users/${data.user.id}`,
         method: 'PATCH',
         headers: ApiHeader(token),
         data: OmitKeys(['user.id'], data),
-    }),
+    }},
 
 
     //Roles  
@@ -175,14 +181,15 @@ const Api = {
         data: data.body
     }),
     
-    AssignRole: (token, data) => {
+    AssignPermission: (token, data) => {
 
         console.log("el token es : " + token)
-        console.log("app id es : " + data.appId)
+        console.log("app id es : " + data.roleId)
+        console.log("app id es : " + data.permissionId)
 
         return {
             baseURL: ApiRoute,
-            url: `/applications/${data.appId}/users/${data.userId}/roles/${data.roleId}`,
+            url: `/applications/${data.appId}/roles/${data.roleId}/permissions/${data.permissionId}`,
             method: 'PUT',
             headers: ApiHeader(token),
         };

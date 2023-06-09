@@ -78,6 +78,7 @@ const getUser =  async (req, res) => {
 
 const updateUser = async (req, res) => {
    token = req.session.token;
+   console.log(req.body)
   await keyrock.user
     .update(token, {user: req.body}) 
     .then((user) => {

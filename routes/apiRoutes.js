@@ -40,5 +40,6 @@ router.get('/roles', roleController.getRoles);
 
 router.post('/permissions', permissionController.createPermission)
 router.get('/permissions', permissionController.getPermissions)
+router.put('/permissions/assignt', permissionController.assigntPermission)
 
 module.exports = router;

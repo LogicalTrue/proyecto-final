@@ -15,6 +15,7 @@ import CreateRole from './Components/CreateRole';
 import AssignRole from './Components/AssignRole';
 import CreatePermission from './Components/CreatePermission'
 import AssignPermission from './Components/AssignPermission';
+import AdminUserEdit from './Components/AdminEditUser'
 
 //Aca configuramos solamente rutas y a que componente va dirigido
 
@@ -29,6 +30,7 @@ function App() {
       <Route path="/assignrole" element={<AssignRole />} />
       <Route path="/createpermission" element={<CreatePermission />} />
       <Route path="/assignpermission" element={<AssignPermission />} />
+      <Route path="/adminuseredit" element={<AdminUserEdit />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/editprofile" element={<EditProfile />} />
       <Route path="/register" element={<RegisterForm/>} />

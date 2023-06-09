@@ -8,7 +8,7 @@ const Users = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
-  
+
   useEffect(() => {
     checkAdminStatus();
     getUsers();
@@ -28,12 +28,44 @@ const Users = () => {
       console.error('Error al obtener la lista de usuarios:', error);
     }
   };
-  console.log(users)
+  console.log(users);
 
   const backToMain = () => {
-    navigate('/main', {state});
+    navigate('/main', { state });
   };
 
+  const updateEnable = async (userId) => {
+    try {
+      const user = users.find((user) => user.id === userId);
+      const body = {
+        id: userId,
+        enabled: !user.enabled, // Cambiar el estado actual
+      };
+
+      const response = await axios.patch(`http://localhost:3001/api/users`, body);
+      const updatedUser = response.data;
+
+      setUsers((prevUsers) =>
+        prevUsers.map((user) => {
+          if (user.id === userId) {
+            return {
+              ...user,
+              enabled: !user.enabled, // Actualizar el estado en la lista de usuarios
+            };
+          }
+          return user;
+        })
+      );
+
+      console.log(updatedUser);
+    } catch (error) {
+      console.error('Error al suspender el usuario', error);
+    }
+  };
+
+  const editUser = (userId) => {
+    navigate('/adminuseredit', {state : userId})
+  };
 
   return (
     <div>
@@ -42,7 +74,13 @@ const Users = () => {
           <h2>Lista de usuarios</h2>
           <ul>
             {users.map((user) => (
-              <li key={user.id}>{user.username}</li>
+              <li key={user.id}>
+                {user.username}
+                <button onClick={() => updateEnable(user.id)}>
+                  {user.enabled ? 'Suspender' : 'Habilitar'}
+                </button>
+                <button onClick={() => editUser(user.id)}>Editar</button>
+              </li>
             ))}
           </ul>
           <br></br>
@@ -51,6 +89,6 @@ const Users = () => {
       ) : null}
     </div>
   );
-            }
-            
+};
+
 export default Users;
