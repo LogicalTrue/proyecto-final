@@ -27,14 +27,14 @@ const Profile = () => {
   const updateProfile = async () => {
     try {
       const body = {
-          id : state.user.id,
+          id: state.user.id,
           username: username,
           password: password
- 
       };
-      const response = await axios.patch(`http://localhost:3001/api/users/${state.user.id}`, body);
-      const updatedProfile = response.data.user;
+      const response = await axios.patch(`http://localhost:3001/api/users`, body);
+      const updatedProfile = response.data;
       setProfile(updatedProfile);
+      backToMain();
     } catch (error) {
       console.error('Error al actualizar el perfil del usuario:', error);
     }

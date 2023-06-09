@@ -10,6 +10,7 @@ config.authorization = {
   // se realizan en el archivo .env
 
   config.api = {
+    debug:true,
     server:process.env.KEYROCK_API_URL,
     client:process.env.KEYROCK_CLIENT_ID,
     secret:process.env.KEYROCK_CLIENT_SECRET,

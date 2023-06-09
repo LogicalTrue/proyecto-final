@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
@@ -25,25 +26,40 @@ const LoginForm = () => {
     }
   };
 
+  const handleRegister = () => {
+    navigate('/register');
+  };
+
   return (
-    <div>
-      <label htmlFor="username">Email: </label>
-      <input
-        type="text"
-        id="username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <br/>
-      <label htmlFor="password">Contraseña: </label>
-      <input
-        type="password"
-        id="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <br/>
-      <button onClick={handleLogin}>Iniciar sesión</button>
+    <div className="container ">
+      <h1 className='display-3 m-3 '>Iniciar Sesión</h1>
+      <div className="form-group m-3 ">
+        <label htmlFor="username">Ingrese su email:</label>
+        <input
+          type="text"
+          className="form-control"
+          id="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+      </div>
+      <div className="form-group m-3 ">
+        <label htmlFor="password ">Ingrese su contraseña:</label>
+        <input
+          type="password"
+          className="form-control"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          onKeyPress={handleLogin }
+        />
+      </div>
+      <button className="btn btn-primary m-3 " onClick={handleLogin} onKeyPress={handleLogin} >
+        Iniciar sesión
+      </button>
+      <button className="btn btn-secondary m-3 " onClick={handleRegister}>
+        Registrar
+      </button>
     </div>
   );
 };
