@@ -64,7 +64,7 @@ const Users = () => {
   };
 
   const editUser = (userId) => {
-    navigate('/adminuseredit', {state : userId})
+    navigate('/adminuseredit', { state: { userId } });
   };
 
   return (

@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 const EditUser = () => {
-  const { userId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { state } = location;
+  const { userStatus } = state.userId;
   const [user, setUser] = useState(null);
   const [formData, setFormData] = useState({
     username: '',
@@ -18,12 +20,12 @@ const EditUser = () => {
   });
 
   useEffect(() => {
-    getUser(userId);
-  }, [userId]);
+    getUser();
+  }, []);
 
-  const getUser = async (userId) => {
+  const getUser = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/api/users/${userId}`);
+      const response = await axios.get('http://localhost:3001/api/users', { params: { status: userStatus } });
       const userData = response.data;
       setUser(userData);
       setFormData(userData);
@@ -41,6 +43,12 @@ const EditUser = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!userId) {
+      console.error('ID de usuario no definido');
+      return;
+    }
+  
     try {
       const response = await axios.patch(`http://localhost:3001/api/users/${userId}`, formData);
       const updatedUser = response.data;
@@ -51,7 +59,9 @@ const EditUser = () => {
     }
   };
 
-
+  if (!user) {
+    return <div>Cargando...</div>;
+  }
 
   return (
     <div>
