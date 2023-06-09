@@ -6,7 +6,8 @@ const EditUser = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
-  const { userStatus } = state.userId;
+  const { userId } = state;
+  const userStatus = userId ? userId.userStatus : null;
   const [user, setUser] = useState(null);
   const [formData, setFormData] = useState({
     username: '',
