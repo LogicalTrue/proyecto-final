@@ -1,0 +1,5 @@
+.background-image {
+    background-image: url('https://blog.winesofargentina.com/wp-content/uploads/2016/06/paraje-altamira-1-1024x573.jpg'); /* Reemplaza "ruta_de_la_imagen.jpg" con la ruta de tu imagen de fondo */
+    background-size: cover;
+    background-position: center;
+  }

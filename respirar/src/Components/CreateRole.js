@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const CreateRole = () => {
   const navigate = useNavigate();
@@ -22,13 +23,35 @@ const CreateRole = () => {
   };
 
   return (
-    <div>
-      <h1>Crear Rol</h1>
-      <div>
-        <input type="text" placeholder="Nombre del rol" value={roleName} onChange={(e) => setRoleName(e.target.value)} />
+    <div className="container mt-5">
+      <div className="card">
+        <div className="card-body">
+          <h1 className="card-title">Crear Rol</h1>
+          <div className="mb-3">
+            <label htmlFor="roleName" className="form-label">
+              Nombre del rol
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="roleName"
+              placeholder="Nombre del rol"
+              value={roleName}
+              onChange={(e) => setRoleName(e.target.value)}
+            />
+          </div>
+          <div className="d-grid gap-2">
+            <button className="btn btn-primary" onClick={createRole}>
+              Crear Rol
+            </button>
+          </div>
+        </div>
       </div>
-      <button onClick={createRole}>Crear Rol</button>
-      <button onClick={backToMain}>Volver</button>
+      <div className="d-flex justify-content-end mt-3">
+        <button className="btn btn-secondary" onClick={backToMain}>
+          Volver
+        </button>
+      </div>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Roles = () => {
   const [roles, setRoles] = useState([]);
@@ -8,7 +9,7 @@ const Roles = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
-  
+
   useEffect(() => {
     checkAdminStatus();
     getRoles();
@@ -28,29 +29,30 @@ const Roles = () => {
       console.error('Error al obtener la lista de roles:', error);
     }
   };
-  console.log(roles)
 
   const backToMain = () => {
-    navigate('/main', {state});
+    navigate('/main', { state });
   };
 
-
   return (
-    <div>
+    <div className="container my-4">
       {isAdmin ? (
         <div>
-          <h2>Lista de roles</h2>
-          <ul>
+          <h2 className="mb-4">Lista de roles</h2>
+          <div className="list-group">
             {roles.map((role) => (
-              <li key={role.id}>{role.name}</li>
+              <div key={role.id} className="list-group-item">
+                {role.name}
+              </div>
             ))}
-          </ul>
-          <br></br>
-          <button onClick={backToMain}>Volver</button>
+          </div>
+          <button className="btn btn-primary mt-3" onClick={backToMain}>
+            Volver
+          </button>
         </div>
       ) : null}
     </div>
   );
-            }
-            
+};
+
 export default Roles;

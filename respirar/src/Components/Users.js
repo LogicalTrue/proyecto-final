@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -28,7 +29,6 @@ const Users = () => {
       console.error('Error al obtener la lista de usuarios:', error);
     }
   };
-  console.log(users);
 
   const backToMain = () => {
     navigate('/main', { state });
@@ -39,10 +39,10 @@ const Users = () => {
       const user = users.find((user) => user.id === userId);
       const body = {
         id: userId,
-        enabled: !user.enabled, // Cambiar el estado actual
+        enabled: !user.enabled,
       };
 
-      const response = await axios.patch(`http://localhost:3001/api/users`, body);
+      const response = await axios.patch('http://localhost:3001/api/users', body);
       const updatedUser = response.data;
 
       setUsers((prevUsers) =>
@@ -50,7 +50,7 @@ const Users = () => {
           if (user.id === userId) {
             return {
               ...user,
-              enabled: !user.enabled, // Actualizar el estado en la lista de usuarios
+              enabled: !user.enabled,
             };
           }
           return user;
@@ -68,23 +68,42 @@ const Users = () => {
   };
 
   return (
-    <div>
+    <div className="container my-4">
       {isAdmin ? (
         <div>
-          <h2>Lista de usuarios</h2>
-          <ul>
-            {users.map((user) => (
-              <li key={user.id}>
-                {user.username}
-                <button onClick={() => updateEnable(user.id)}>
-                  {user.enabled ? 'Suspender' : 'Habilitar'}
-                </button>
-                <button onClick={() => editUser(user.id)}>Editar</button>
-              </li>
-            ))}
-          </ul>
-          <br></br>
-          <button onClick={backToMain}>Volver</button>
+          <h2 className="mb-4">Lista de usuarios</h2>
+          <div className="table-responsive">
+            <table className="table table-striped">
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map((user) => (
+                  <tr key={user.id}>
+                    <td>{user.username}</td>
+                    <td>{user.email}</td>
+                    <td>
+                      <div className="d-flex">
+                        <button className="btn btn-primary me-2" onClick={() => updateEnable(user.id)}>
+                          {user.enabled ? 'Suspender' : 'Habilitar'}
+                        </button>
+                        <button className="btn btn-secondary" onClick={() => editUser(user.id)}>
+                          Editar
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <button className="btn btn-primary my-2" onClick={backToMain}>
+            Volver
+          </button>
         </div>
       ) : null}
     </div>

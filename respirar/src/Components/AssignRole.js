@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const AssignRole = () => {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ const AssignRole = () => {
   const assignRole = async () => {
     try {
       // Realiza la llamada para asignar el rol seleccionado al usuario seleccionado
-      await axios.put('http://localhost:3001/api/roles/assignt', {
+      await axios.put('http://localhost:3001/api/roles/assign', {
         roleId: selectedRole,
         userId: selectedUser,
       });
@@ -62,33 +63,40 @@ const AssignRole = () => {
   };
 
   return (
-    <div>
-      <h1>Asignar Rol</h1>
-      <div>
-        <label htmlFor="role">Rol:</label>
-        <select id="role" value={selectedRole} onChange={handleRoleChange}>
-          <option value="">Seleccionar rol</option>
-          {roles.map((role) => (
-            <option key={role.id} value={role.id}>
-              {role.name}
-            </option>
-          ))}
-        </select>
+    <div className="container mt-5">
+      <div className="card">
+        <div className="card-body">
+          <h1 className="card-title">Asignar Rol</h1>
+          <div className="mb-3">
+            <label htmlFor="role" className="form-label">Rol:</label>
+            <select id="role" className="form-select" value={selectedRole} onChange={handleRoleChange}>
+              <option value="">Seleccionar rol</option>
+              {roles.map((role) => (
+                <option key={role.id} value={role.id}>
+                  {role.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="mb-3">
+            <label htmlFor="user" className="form-label">Usuario:</label>
+            <select id="user" className="form-select" value={selectedUser} onChange={handleUserChange}>
+              <option value="">Seleccionar usuario</option>
+              {users.map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.username}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="d-grid gap-2">
+            <button className="btn btn-primary" onClick={assignRole}>Asignar Rol</button>
+          </div>
+        </div>
       </div>
-      <div>
-        <label htmlFor="user">Usuario:</label>
-        <select id="user" value={selectedUser} onChange={handleUserChange}>
-          <option value="">Seleccionar usuario</option>
-          {users.map((user) => (
-            <option key={user.id} value={user.id}>
-              {user.username}
-            </option>
-          ))}
-        </select>
+      <div className="d-flex justify-content-end mt-3">
+        <button className="btn btn-secondary" onClick={backToMain}>Volver</button>
       </div>
-      <button onClick={assignRole}>Asignar Rol</button>
-      <button onClick={backToMain}>Volver</button>
-
     </div>
   );
 };

@@ -57,6 +57,7 @@ const createUser = async (req, res) => {
   });
 };
 
+
 const getUsers = async (req, res) => {
   token = req.session.token;
   await keyrock.user.findAll(token).
