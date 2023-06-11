@@ -45,7 +45,10 @@ const RegisterForm = () => {
       console.log(user);
       setSuccess('Registro exitoso. ¡Ahora puedes iniciar sesión!');
       setErrors({});
-      // navigate('/post');
+      setTimeout(() => {
+        navigate('/');
+      }, 2000);
+
     } catch (error) {
       setErrors({});
       console.error('Error de registración:', error);
@@ -58,6 +61,10 @@ const RegisterForm = () => {
     const emailValidation = e.target.checkValidity() ? '' : 'Por favor, ingresa un correo electrónico válido.';
     setErrors((prevState) => ({ ...prevState, username: emailValidation }));
   };
+
+  const handleBack = async () => {
+      navigate('/');
+  }
 
   return (
     <div className="container">
@@ -134,7 +141,13 @@ const RegisterForm = () => {
         Registrarse
       </button>
       {success && <p>{success}</p>}
+
+      <button className="btn btn-primary m-3" onClick={handleBack}>
+        Volver
+      </button>
+
     </div>
+    
   );
 };
 
