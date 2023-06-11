@@ -48,7 +48,7 @@ const AssignRole = () => {
   const assignRole = async () => {
     try {
       // Realiza la llamada para asignar el rol seleccionado al usuario seleccionado
-      await axios.put('http://localhost:3001/api/roles/assign', {
+      await axios.put('http://localhost:3001/api/roles/assignt', {
         roleId: selectedRole,
         userId: selectedUser,
       });
