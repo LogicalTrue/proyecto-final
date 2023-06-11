@@ -46,6 +46,26 @@ const Main = () => {
     setSelectedComponent(component);
   };
 
+   // Función para renderizar el contenido principal según el componente seleccionado
+   const renderMainContent = () => {
+    if (selectedComponent === 'Users') return <Users />;
+    if (selectedComponent === 'Roles') return <Roles />;
+    if (selectedComponent === 'CreateRole') return <CreateRole />;
+    if (selectedComponent === 'AssignRole') return <AssignRole />;
+    if (selectedComponent === 'CreatePermission') return <CreatePermission />;
+    if (selectedComponent === 'AssignPermission') return <AssignPermission />;
+    if (selectedComponent === 'Profile') return <Profile />;
+    if (selectedComponent === 'EditProfile') return <EditProfile />;
+
+    // Si no se ha seleccionado ningún componente, muestra el mensaje de bienvenida
+    return (
+      <div className="welcome-message">
+        <h2>Bienvenido(a) a respirar</h2>
+        <p>Seleccione una opción del menú para comenzar</p>
+      </div>
+    );
+  };
+
   return (
     <div className="container mt-5">
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -54,7 +74,7 @@ const Main = () => {
             <>
               <li className={`nav-item ${selectedComponent === 'Users' ? 'active' : ''}`}>
                 <button
-                  className="nav-link btn"
+                  className="nav-link btn btn-bold"
                   onClick={() => handleComponentClick('Users')}
                 >
                   Usuarios
@@ -62,7 +82,7 @@ const Main = () => {
               </li>
               <li className={`nav-item ${selectedComponent === 'Roles' ? 'active' : ''}`}>
                 <button
-                  className="nav-link btn"
+                  className="nav-link btn btn-bold"
                   onClick={() => handleComponentClick('Roles')}
                 >
                   Roles
@@ -70,7 +90,7 @@ const Main = () => {
               </li>
               <li className={`nav-item ${selectedComponent === 'CreateRole' ? 'active' : ''}`}>
                 <button
-                  className="nav-link btn"
+                  className="nav-link btn btn-bold"
                   onClick={() => handleComponentClick('CreateRole')}
                 >
                   Crear roles
@@ -78,7 +98,7 @@ const Main = () => {
               </li>
               <li className={`nav-item ${selectedComponent === 'AssignRole' ? 'active' : ''}`}>
                 <button
-                  className="nav-link btn"
+                  className="nav-link btn btn-bold"
                   onClick={() => handleComponentClick('AssignRole')}
                 >
                   Asignar roles
@@ -86,7 +106,7 @@ const Main = () => {
               </li>
               <li className={`nav-item ${selectedComponent === 'CreatePermission' ? 'active' : ''}`}>
                 <button
-                  className="nav-link btn"
+                  className="nav-link btn btn-bold"
                   onClick={() => handleComponentClick('CreatePermission')}
                 >
                   Crear permisos
@@ -94,7 +114,7 @@ const Main = () => {
               </li>
               <li className={`nav-item ${selectedComponent === 'AssignPermission' ? 'active' : ''}`}>
                 <button
-                  className="nav-link btn"
+                  className="nav-link btn btn-bold"
                   onClick={() => handleComponentClick('AssignPermission')}
                 >
                   Asignar permisos
@@ -103,7 +123,7 @@ const Main = () => {
 
               <li className={`nav-item ${selectedComponent === 'AssignPermission' ? 'active' : ''}`}>
                 <button
-                  className={`nav-link btn`}
+                  className={`nav-link btn btn-bold`}
                   onClick={() => handleChangeCreateUserAsPublic()}
                 >
                   {CreateUserAsPublic ? 'Deshabilitar' : 'Habilitar'} registro
@@ -116,7 +136,7 @@ const Main = () => {
             <>
               <li className={`nav-item ${selectedComponent === 'Profile' ? 'active' : ''}`}>
                 <button
-                  className="nav-link btn"
+                  className="nav-link btn btn-bold"
                   onClick={() => handleComponentClick('Profile')}
                 >
                   Ver perfil
@@ -124,7 +144,7 @@ const Main = () => {
               </li>
               <li className={`nav-item ${selectedComponent === 'EditProfile' ? 'active' : ''}`}>
                 <button
-                  className="nav-link btn"
+                  className="nav-link btn btn-bold"
                   onClick={() => handleComponentClick('EditProfile')}
                 >
                   Editar perfil
@@ -134,21 +154,14 @@ const Main = () => {
           )}
 
           <li className="nav-item">
-            <button className="nav-link btn" onClick={() => handleLogout()}>
+            <button className="nav-link btn btn-bold" onClick={() => handleLogout()}>
               Cerrar sesión
             </button>
           </li>
         </ul>
       </nav>
 
-      {selectedComponent === 'Users' && <Users />}
-      {selectedComponent === 'Roles' && <Roles />}
-      {selectedComponent === 'CreateRole' && <CreateRole />}
-      {selectedComponent === 'AssignRole' && <AssignRole />}
-      {selectedComponent === 'CreatePermission' && <CreatePermission />}
-      {selectedComponent === 'AssignPermission' && <AssignPermission />}
-      {selectedComponent === 'Profile' && <Profile />}
-      {selectedComponent === 'EditProfile' && <EditProfile />}
+      {renderMainContent()}
     </div>
   );
 };
