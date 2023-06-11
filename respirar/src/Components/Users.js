@@ -16,7 +16,7 @@ const Users = () => {
   }, []);
 
   const checkAdminStatus = () => {
-    const isAdminUser = state.user.admin;
+    const isAdminUser = state && state.user && state.user.admin; // Verificar si state, state.user y state.user.admin existen
     setIsAdmin(isAdminUser);
   };
 
@@ -64,7 +64,10 @@ const Users = () => {
   };
 
   const editUser = (userId) => {
-    navigate('/adminuseredit', { state: { userId } });
+
+    //aca esta el problema
+    const user = users.find((user) => user.id === userId);
+    navigate('/adminuseredit', { state: { userId, adminUser: state.user } });
   };
 
   return (

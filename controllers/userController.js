@@ -60,6 +60,7 @@ const createUser = async (req, res) => {
 
 const getUsers = async (req, res) => {
   token = req.session.token;
+  console.log("Usuario: " + req.body)
   await keyrock.user.findAll(token).
     then((users)=>res.status(200).json(users))
   .catch((error)=>{
@@ -67,8 +68,11 @@ const getUsers = async (req, res) => {
   });
 };
 
+//deberia caer aca
+
 const getUser =  async (req, res) => {
   token = req.session.token; 
+  console.log("Usuario: " + req.body)
   await keyrock.user.findOne(token, req.params.id).
     then((users)=>res.status(200).json(users))
     
@@ -79,7 +83,9 @@ const getUser =  async (req, res) => {
 
 const updateUser = async (req, res) => {
    token = req.session.token;
-   console.log(req.body)
+   
+   console.log("probando " + req.body.username)
+
   await keyrock.user
     .update(token, {user: req.body}) 
     .then((user) => {
