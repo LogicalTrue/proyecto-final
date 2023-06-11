@@ -30,10 +30,11 @@ const LoginForm = () => {
     navigate('/register');
   };
 
-  return (
-    <div className="container ">
-      <h1 className='display-3 m-3 '>Iniciar Sesión</h1>
-      <div className="form-group m-3 ">
+  return (    <div className="container">
+  <h1 className="display-3 m-3">Iniciar Sesión</h1>
+  <div className="row">
+    <div className="col-md-6">
+      <div className="form-group">
         <label htmlFor="username">Ingrese su email:</label>
         <input
           type="text"
@@ -43,25 +44,42 @@ const LoginForm = () => {
           onChange={(e) => setUsername(e.target.value)}
         />
       </div>
-      <div className="form-group m-3 ">
-        <label htmlFor="password ">Ingrese su contraseña:</label>
+    </div>
+  </div>
+  <div className="row">
+    <div className="col-md-6">
+      <div className="form-group">
+        <label htmlFor="password">Ingrese su contraseña:</label>
         <input
           type="password"
           className="form-control"
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          onKeyPress={handleLogin }
+          onKeyPress={handleLogin}
         />
       </div>
-      <button className="btn btn-primary m-3 " onClick={handleLogin} onKeyPress={handleLogin} >
+    </div>
+  </div>
+  <div className="row">
+    <div className="col-md-6">
+      <button className="btn btn-primary m-3" onClick={handleLogin} onKeyPress={handleLogin}>
         Iniciar sesión
       </button>
-      <button className="btn btn-secondary m-3 " onClick={handleRegister}>
+      <button className="btn btn-secondary m-3" onClick={handleRegister}>
         Registrar
       </button>
     </div>
-  );
+  </div>
+</div>
+);
 };
 
 export default LoginForm;
+
+
+
+
+
+
+

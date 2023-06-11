@@ -62,47 +62,74 @@ const RegisterForm = () => {
   return (
     <div className="container">
       <h1 className="display-3 m-3">Registrá tu cuenta</h1>
-      <div className={`form-group m-3 ${errors.username && 'was-validated'}`}>
-        <label htmlFor="username">Ingresá tu correo electrónico: </label>
-        <input
-          type="text"
-          id="username"
-          value={username}
-          onChange={handleUsernameChange}
-          className={`form-control ${errors.username ? 'is-invalid' : ''}`}
-          required
-          pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
-        />
-        {errors.username && <div className="invalid-feedback">{errors.username}</div>}
+      <div className="form-container">
+
+
+        <div className="row">
+          <div className="col-md-6">
+            <div className="form-group">
+              <div className={`form-group m-3 ${errors.username && 'was-validated'}`}>
+                <label htmlFor="username">Ingresá tu correo electrónico:</label>
+                <input
+                  type="text"
+                  id="username"
+                  value={username}
+                  onChange={handleUsernameChange}
+                  className={`form-control rounded-0 ${errors.username ? 'is-invalid' : ''}`}
+                  required
+                  pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+                />
+                {errors.username && <div className="invalid-feedback">{errors.username}</div>}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-md-6">
+            <div className="form-group">
+              <div className={`form-group m-3 ${errors.password && 'was-validated'}`}>
+                <label htmlFor="password">Tu contraseña:</label>
+                <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className={`form-control rounded-0 ${errors.password ? 'is-invalid' : ''}`}
+                  required
+                  minLength="8"
+                  pattern="(?=.*\d)(?=.*[a-zA-Z]).{8,}"
+                />
+                {errors.password && <div className="invalid-feedback">{errors.password}</div>}
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div className="row">
+          <div className="col-md-6">
+            <div className="form-group">
+              <div className={`form-group m-3 ${errors.confirmPassword && 'was-validated'}`}>
+                <label htmlFor="confirm-password">Confirmá tu contraseña:</label>
+                <input
+                  type="password"
+                  id="confirm-password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className={`form-control rounded-0 ${errors.confirmPassword ? 'is-invalid' : ''}`}
+                  required
+                  minLength="8"
+                  pattern="(?=.*\d)(?=.*[a-zA-Z]).{8,}"
+                />
+                {errors.confirmPassword && <div className="invalid-feedback">{errors.confirmPassword}</div>}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className={`form-group m-3 ${errors.password && 'was-validated'}`}>
-        <label htmlFor="password">Tu contraseña: </label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-          required
-          minLength="8"
-          pattern="(?=.*\d)(?=.*[a-zA-Z]).{8,}"
-        />
-        {errors.password && <div className="invalid-feedback">{errors.password}</div>}
-      </div>
-      <div className={`form-group m-3 ${errors.confirmPassword && 'was-validated'}`}>
-        <label htmlFor="confirm-password">Confirmá tu contraseña: </label>
-        <input
-          type="password"
-          id="confirm-password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          className={`form-control ${errors.confirmPassword ? 'is-invalid' : ''}`}
-          required
-          minLength="8"
-          pattern="(?=.*\d)(?=.*[a-zA-Z]).{8,}"
-        />
-        {errors.confirmPassword && <div className="invalid-feedback">{errors.confirmPassword}</div>}
-      </div>
+
+
       <button className="btn btn-primary m-3" onClick={handleRegister}>
         Registrarse
       </button>
@@ -110,5 +137,6 @@ const RegisterForm = () => {
     </div>
   );
 };
+
 
 export default RegisterForm;
