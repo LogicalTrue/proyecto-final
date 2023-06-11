@@ -30,10 +30,6 @@ const Roles = () => {
     }
   };
 
-  const backToMain = () => {
-    navigate('/main', { state });
-  };
-
   return (
     <div className="container my-4">
       {isAdmin ? (
@@ -46,9 +42,6 @@ const Roles = () => {
               </div>
             ))}
           </div>
-          <button className="btn btn-primary mt-3" onClick={backToMain}>
-            Volver
-          </button>
         </div>
       ) : null}
     </div>

@@ -30,10 +30,6 @@ const Users = () => {
     }
   };
 
-  const backToMain = () => {
-    navigate('/main', { state });
-  };
-
   const updateEnable = async (userId) => {
     try {
       const user = users.find((user) => user.id === userId);
@@ -104,9 +100,6 @@ const Users = () => {
               </tbody>
             </table>
           </div>
-          <button className="btn btn-primary my-2" onClick={backToMain}>
-            Volver
-          </button>
         </div>
       ) : null}
     </div>

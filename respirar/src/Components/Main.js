@@ -1,14 +1,26 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './main.css';
+
+// Importamos componentes
+import Users from '../Components/Users';
+import Roles from '../Components/Roles';
+import CreateRole from '../Components/CreateRole';
+import AssignRole from '../Components/AssignRole';
+import CreatePermission from '../Components/CreatePermission';
+import AssignPermission from '../Components/AssignPermission';
+import Profile from '../Components/Profile';
+import EditProfile from '../Components/EditProfile';
 
 const Main = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
-  const CreateUserAsPublic = state.user.CreateUserAsPublic;
+  const CreateUserAsPublic = state.user.CreateUserAsPublic; //Luego se aplica
+  const [selectedComponent, setSelectedComponent] = useState(null);
 
   useEffect(() => {
     checkAdminStatus();
@@ -19,10 +31,6 @@ const Main = () => {
     setIsAdmin(isAdminUser);
   };
 
-  const handleLogout = () => {
-    navigate('/');
-  };
-
   const handleChangeCreateUserAsPublic = async () => {
     const response = await axios.post('http://localhost:3001/api/changeCreateUserAsPublic', { enable: !CreateUserAsPublic });
     state.user.CreateUserAsPublic = response.data.enabled;
@@ -30,165 +38,117 @@ const Main = () => {
     else navigate('/main', { state: state });
   };
 
+  const handleLogout = () => {
+    navigate('/');
+  };
+
+  const handleComponentClick = (component) => {
+    setSelectedComponent(component);
+  };
+
   return (
     <div className="container mt-5">
-      {isAdmin ? (
-        <div>
-          <h1 className="text-center mb-4">Panel de administrador</h1>
-          <ul className="list-group" style={{ maxWidth: '400px', margin: '0 auto' }}>
-            <li
-              className="list-group-item text-center"
-              style={{
-                background: CreateUserAsPublic ? '#007bff' : 'lightgray',
-                cursor: 'pointer',
-                textDecoration: 'none',
-                color: 'white',
-              }}
-              onClick={handleChangeCreateUserAsPublic}
-              onMouseEnter={(e) => {
-                e.target.style.background = '#89CFF0';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.background = CreateUserAsPublic ? '#007bff' : 'lightgray';
-              }}
-            >
-              {CreateUserAsPublic ? 'Deshabilitar' : 'Habilitar'} creacion de usuarios
-            </li>
-            <li
-              className="list-group-item text-center"
-              style={{
-                background: '#007bff',
-                cursor: 'pointer',
-                textDecoration: 'none',
-                color: 'white',
-              }}
-              onClick={() => navigate('/users', { state: state })}
-              onMouseEnter={(e) => {
-                e.target.style.background = '#3396ff';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.background = '#007bff';
-              }}
-            >
-              USUARIOS
-            </li>
-            <li
-              className="list-group-item text-center"
-              style={{
-                background: '#007bff',
-                cursor: 'pointer',
-                textDecoration: 'none',
-                color: 'white',
-              }}
-              onClick={() => navigate('/roles', { state: state })}
-              onMouseEnter={(e) => {
-                e.target.style.background = '#4ca1fc';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.background = '#007bff';
-              }}
-            >
-              ROLES
-            </li>
-            <li
-              className="list-group-item text-center"
-              style={{
-                background: '#007bff',
-                cursor: 'pointer',
-                textDecoration: 'none',
-                color: 'white',
-              }}
-              onClick={() => navigate('/createrole', { state: state })}
-              onMouseEnter={(e) => {
-                e.target.style.background = '#4ca1fc';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.background = '#007bff';
-              }}
-            >
-              CREAR ROL
-            </li>
-            <li
-              className="list-group-item text-center"
-              style={{
-                background: '#007bff',
-                cursor: 'pointer',
-                textDecoration: 'none',
-                color: 'white',
-              }}
-              onClick={() => navigate('/assignrole', { state })}
-              onMouseEnter={(e) => {
-                e.target.style.background = '#4ca1fc';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.background = '#007bff';
-              }}
-            >
-              ASIGNAR ROL
-            </li>
-            <li
-              className="list-group-item text-center"
-              style={{
-                background: '#007bff',
-                cursor: 'pointer',
-                textDecoration: 'none',
-                color: 'white',
-              }}
-              onClick={() => navigate('/createpermission', { state })}
-              onMouseEnter={(e) => {
-                e.target.style.background = '#4ca1fc';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.background = '#007bff';
-              }}
-            >
-              CREAR PERMISO
-            </li>
-            <li
-              className="list-group-item text-center"
-              style={{
-                background: '#007bff',
-                cursor: 'pointer',
-                textDecoration: 'none',
-                color: 'white',
-              }}
-              onClick={() => navigate('/assignpermission', { state })}
-              onMouseEnter={(e) => {
-                e.target.style.background = '#4ca1fc';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.background = '#007bff';
-              }}
-            >
-              ASIGNAR PERMISO
-            </li>
-          </ul>
-          <button className="btn btn-primary mt-3" onClick={handleLogout} style={{ width: '100%' }}>
-            Cerrar sesión
-          </button>
-        </div>
-      ) : (
-        <div>
-          <h1 className="text-center mb-4">Panel de usuario</h1>
-          <button
-            className="btn btn-link d-block mx-auto mb-2"
-            onClick={() => navigate('/profile', { state })}
-            style={{ textDecoration: 'none', color: 'white' }}
-          >
-            Ver perfil
-          </button>
-          <button
-            className="btn btn-link d-block mx-auto mb-2"
-            onClick={() => navigate('/editprofile', { state })}
-            style={{ textDecoration: 'none', color: 'white' }}
-          >
-            Editar perfil
-          </button>
-          <button className="btn btn-primary mt-3 d-block mx-auto" onClick={handleLogout} style={{ width: '100%' }}>
-            Cerrar sesión
-          </button>
-        </div>
-      )}
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <ul className="navbar-nav">
+          {isAdmin && (
+            <>
+              <li className={`nav-item ${selectedComponent === 'Users' ? 'active' : ''}`}>
+                <button
+                  className="nav-link btn"
+                  onClick={() => handleComponentClick('Users')}
+                >
+                  Usuarios
+                </button>
+              </li>
+              <li className={`nav-item ${selectedComponent === 'Roles' ? 'active' : ''}`}>
+                <button
+                  className="nav-link btn"
+                  onClick={() => handleComponentClick('Roles')}
+                >
+                  Roles
+                </button>
+              </li>
+              <li className={`nav-item ${selectedComponent === 'CreateRole' ? 'active' : ''}`}>
+                <button
+                  className="nav-link btn"
+                  onClick={() => handleComponentClick('CreateRole')}
+                >
+                  Crear roles
+                </button>
+              </li>
+              <li className={`nav-item ${selectedComponent === 'AssignRole' ? 'active' : ''}`}>
+                <button
+                  className="nav-link btn"
+                  onClick={() => handleComponentClick('AssignRole')}
+                >
+                  Asignar roles
+                </button>
+              </li>
+              <li className={`nav-item ${selectedComponent === 'CreatePermission' ? 'active' : ''}`}>
+                <button
+                  className="nav-link btn"
+                  onClick={() => handleComponentClick('CreatePermission')}
+                >
+                  Crear permisos
+                </button>
+              </li>
+              <li className={`nav-item ${selectedComponent === 'AssignPermission' ? 'active' : ''}`}>
+                <button
+                  className="nav-link btn"
+                  onClick={() => handleComponentClick('AssignPermission')}
+                >
+                  Asignar permisos
+                </button>
+              </li>
+
+              <li className={`nav-item ${selectedComponent === 'AssignPermission' ? 'active' : ''}`}>
+                <button
+                  className={`nav-link btn`}
+                  onClick={() => handleChangeCreateUserAsPublic()}
+                >
+                  {CreateUserAsPublic ? 'Deshabilitar' : 'Habilitar'} registro
+                </button>
+              </li>
+            </>
+          )}
+
+          {!isAdmin && (
+            <>
+              <li className={`nav-item ${selectedComponent === 'Profile' ? 'active' : ''}`}>
+                <button
+                  className="nav-link btn"
+                  onClick={() => handleComponentClick('Profile')}
+                >
+                  Ver perfil
+                </button>
+              </li>
+              <li className={`nav-item ${selectedComponent === 'EditProfile' ? 'active' : ''}`}>
+                <button
+                  className="nav-link btn"
+                  onClick={() => handleComponentClick('EditProfile')}
+                >
+                  Editar perfil
+                </button>
+              </li>
+            </>
+          )}
+
+          <li className="nav-item">
+            <button className="nav-link btn" onClick={() => handleLogout()}>
+              Cerrar sesión
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+      {selectedComponent === 'Users' && <Users />}
+      {selectedComponent === 'Roles' && <Roles />}
+      {selectedComponent === 'CreateRole' && <CreateRole />}
+      {selectedComponent === 'AssignRole' && <AssignRole />}
+      {selectedComponent === 'CreatePermission' && <CreatePermission />}
+      {selectedComponent === 'AssignPermission' && <AssignPermission />}
+      {selectedComponent === 'Profile' && <Profile />}
+      {selectedComponent === 'EditProfile' && <EditProfile />}
     </div>
   );
 };

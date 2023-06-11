@@ -18,10 +18,6 @@ const CreateRole = () => {
     }
   };
 
-  const backToMain = () => {
-    navigate('/main', { state });
-  };
-
   return (
     <div className="container mt-5">
       <div className="card">
@@ -40,18 +36,16 @@ const CreateRole = () => {
               onChange={(e) => setRoleName(e.target.value)}
             />
           </div>
-          <div className="d-grid gap-2">
-            <button className="btn btn-primary" onClick={createRole}>
+
+          <div class="d-grid gap-2 d-md-block">
+            <button className="btn btn-primary" type="button" onClick={createRole}>
               Crear Rol
             </button>
+            <div />
           </div>
         </div>
       </div>
-      <div className="d-flex justify-content-end mt-3">
-        <button className="btn btn-secondary" onClick={backToMain}>
-          Volver
-        </button>
-      </div>
+      <div className="d-flex justify-content-end mt-3"></div>
     </div>
   );
 };

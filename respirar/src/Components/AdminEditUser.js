@@ -6,13 +6,12 @@ const AdminEditUser = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
-  const userId = state.userId
-  const userAdmin  = state.adminUser
+  const userId = state.userId;
+  const userAdmin = state.adminUser;
   const [user, setUser] = useState(null);
   const [formData, setFormData] = useState({
     username: '',
     email: '',
-    enabled: false,
     admin: false,
     image: '',
     gravatar: false,
@@ -36,10 +35,13 @@ const AdminEditUser = () => {
   };
 
   const handleChange = (event) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
+    const { name, value, type, checked } = event.target;
+    const newValue = type === 'checkbox' ? checked : value;
+
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: newValue,
+    }));
   };
 
   const handleSubmit = async (event) => {
@@ -49,32 +51,29 @@ const AdminEditUser = () => {
       console.error('ID de usuario no definido');
       return;
     }
-  
-    try {
 
-      //aca se le pasa el body solamente, no va dar
-      let body = {
-        id : userId,
+    try {
+      const body = {
+        id: userId,
         username: formData.username,
-        email : formData.email,
-        enabled : formData.enabled,
-        admin : formData.admin,
-        image : formData.image,
-        gravatar : formData.gravatar,
-        description : formData.description,
-        website : formData.website
-      }
+        email: formData.email,
+        admin: formData.admin,
+        image: formData.image,
+        gravatar: formData.gravatar,
+        description: formData.description,
+        website: formData.website,
+      };
 
       const response = await axios.patch(`http://localhost:3001/api/users/`, body);
       const updatedUser = response.data;
-      console.log(updatedUser)
+      console.log(updatedUser);
     } catch (error) {
       console.error('Error al modificar el usuario:', error);
     }
   };
 
   const handleGoBack = () => {
-    navigate('/users', { state : { user: userAdmin } });
+    navigate('/main', { state: { user: userAdmin } });
   };
 
   if (!user) {
@@ -82,60 +81,54 @@ const AdminEditUser = () => {
   }
 
   return (
-    <div>
+    <div className="container mt-4">
       <h2>Modificar usuario</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>
+        <div className="mb-3">
+          <label className="form-label">
             Nombre de usuario:
-            <input type="text" name="username" value={formData.username} onChange={handleChange} />
+            <input type="text" className="form-control" name="username" value={formData.username} onChange={handleChange} />
           </label>
         </div>
-        <div>
-          <label>
+        <div className="mb-3">
+          <label className="form-label">
             Correo electrónico:
-            <input type="email" name="email" value={formData.email} onChange={handleChange} />
+            <input type="email" className="form-control" name="email" value={formData.email} onChange={handleChange} />
           </label>
         </div>
-        <div>
-          <label>
-            Habilitado:
-            <input type="checkbox" name="enabled" checked={formData.enabled} onChange={handleChange} />
-          </label>
-        </div>
-        <div>
-          <label>
-            Administrador:
-            <input type="checkbox" name="admin" checked={formData.admin} onChange={handleChange} />
-          </label>
-        </div>
-        <div>
-          <label>
+        <div className="mb-3">
+          <label className="form-label">
             Imagen:
-            <input type="text" name="image" value={formData.image} onChange={handleChange} />
+            <input type="text" className="form-control" name="image" value={formData.image} onChange={handleChange} />
           </label>
         </div>
-        <div>
-          <label>
-            Gravatar:
-            <input type="checkbox" name="gravatar" checked={formData.gravatar} onChange={handleChange} />
-          </label>
-        </div>
-        <div>
-          <label>
+        <div className="mb-3">
+          <label className="form-label">
             Descripción:
-            <textarea name="description" value={formData.description} onChange={handleChange} />
+            <textarea className="form-control" name="description" value={formData.description} onChange={handleChange} />
           </label>
         </div>
-        <div>
-          <label>
+        <div className="mb-3">
+          <label className="form-label">
             Sitio web:
-            <input type="text" name="website" value={formData.website} onChange={handleChange} />
+            <input type="text" className="form-control" name="website" value={formData.website} onChange={handleChange} />
           </label>
         </div>
-        <button type="submit">Guardar</button>
+        <div className="mb-3">
+          <label className="form-check-label">
+            Gravatar:
+            <input type="checkbox" className="form-check-input" name="gravatar" checked={formData.gravatar} onChange={handleChange} />
+          </label>
+        </div>
+        <div className="mb-3">
+          <label className="form-check-label">
+            Administrador:
+            <input type="checkbox" className="form-check-input" name="admin" checked={formData.admin} onChange={handleChange} />
+          </label>
+        </div>
+        <button type="submit" className="btn btn-primary">Guardar</button>
       </form>
-        <button onClick={handleGoBack}>Volver</button>
+      <button onClick={handleGoBack} className="btn btn-secondary mt-3">Volver</button>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Profile = () => {
   const [userProfile, setProfile] = useState(null);
@@ -27,18 +28,19 @@ const Profile = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <h1>Perfil</h1>
       {userProfile ? (
         <div>
-          <p>Email: {userProfile.email}</p>
-          <p>Nombre: {userProfile.username}</p>
-          <p>descripcion: {userProfile.description}</p>
+          <p className="lead">Email: {userProfile.email}</p>
+          <p className="lead">Nombre: {userProfile.username}</p>
+          <p className="lead">Descripción: {userProfile.description}</p>
+          <p className="lead">website: {userProfile.website}</p>
+          <p className="lead">Administrador: {userProfile.admin ? 'Sí' : 'No'}</p>
         </div>
       ) : (
         <p>Cargando perfil...</p>
       )}
-      <button onClick={backToMain}>Volver</button>
     </div>
   );
 };

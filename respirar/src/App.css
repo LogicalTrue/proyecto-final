@@ -7,6 +7,10 @@
   pointer-events: none;
 }
 
+.bg {
+  background-image: url(../src//Assets//images//background-respirar.jpg);
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
