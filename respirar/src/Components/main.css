@@ -2,10 +2,35 @@
   border-right: 2px solid #000000;
 }
 
-.nav {
-  background-color: #000000;
+.welcome-message {
+  overflow: hidden;
+  position: relative;
 }
 
-.btn-bold {
-  font-weight: bold;
+.welcome-message .glow-text {
+  position: relative;
+  animation: scroll-left 15s linear infinite;
+  white-space: nowrap;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+body {
+  background-image: url(../Assets/Images/background-respirar.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  color: white;
+}
+
+.container {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
 }

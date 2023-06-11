@@ -14,6 +14,8 @@ import AssignPermission from '../Components/AssignPermission';
 import Profile from '../Components/Profile';
 import EditProfile from '../Components/EditProfile';
 
+
+
 const Main = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
@@ -59,14 +61,17 @@ const Main = () => {
 
     // Si no se ha seleccionado ningún componente, muestra el mensaje de bienvenida
     return (
-      <div className="welcome-message">
-        <h2>Bienvenido(a) a respirar</h2>
-        <p>Seleccione una opción del menú para comenzar</p>
+      <div className="container-fluid mt-5 main-container">
+        <div className="welcome-message">
+          <h2 className="glow-text">Bienvenido(a) a la página respirar</h2>
+          <p className="fade-in-text">Seleccione una opción del menú para comenzar.</p>
+        </div>
       </div>
     );
   };
 
   return (
+    
     <div className="container mt-5">
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <ul className="navbar-nav">
