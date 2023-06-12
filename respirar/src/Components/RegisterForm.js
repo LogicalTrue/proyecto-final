@@ -6,6 +6,7 @@ import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 const RegisterForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState('');
@@ -16,6 +17,10 @@ const RegisterForm = () => {
 
     if (!username) {
       validationErrors.username = 'Por favor, ingresa un correo electrónico válido.';
+    }
+
+    if (!name) {
+      validationErrors.name = 'Por favor, ingrese un nombre de usuario válido'
     }
 
     if (!password) {
@@ -29,6 +34,8 @@ const RegisterForm = () => {
       validationErrors.confirmPassword = 'Por favor, asegúrate que las contraseñas coincidan.';
     }
 
+    
+
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       setSuccess('');
@@ -37,9 +44,9 @@ const RegisterForm = () => {
 
     try {
       const response = await axios.post('http://localhost:3001/api/users', {
-        username: username,
         email: username,
-        password: password,
+        username: name,
+        password: password
       });
       const user = response.data;
       console.log(user);
@@ -59,7 +66,7 @@ const RegisterForm = () => {
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
     const emailValidation = e.target.checkValidity() ? '' : 'Por favor, ingresa un correo electrónico válido.';
-    setErrors((prevState) => ({ ...prevState, username: emailValidation }));
+    setErrors((prevState) => ({ ...prevState, email: emailValidation }));
   };
 
   const handleBack = async () => {
@@ -70,23 +77,25 @@ const RegisterForm = () => {
     <div className="container">
       <h1 className="display-3 m-3">Registrá tu cuenta</h1>
       <div className="form-container">
-
-
-        <div className="row">
+      <div className="row">
           <div className="col-md-6">
             <div className="form-group">
-              <div className={`form-group m-3 ${errors.username && 'was-validated'}`}>
-                <label htmlFor="username">Ingresá tu correo electrónico:</label>
+              <div
+                className={`form-group m-3 ${errors.name && "was-validated"}`}
+              >
+                <label htmlFor="name">Ingresá tu nombre de usuario:</label>
                 <input
                   type="text"
-                  id="username"
-                  value={username}
-                  onChange={handleUsernameChange}
-                  className={`form-control rounded-0 ${errors.username ? 'is-invalid' : ''}`}
-                  required
-                  pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className={`form-control rounded-0 ${
+                    errors.name ? "is-invalid" : ""
+                  }`}
                 />
-                {errors.username && <div className="invalid-feedback">{errors.username}</div>}
+                {errors.name && (
+                  <div className="invalid-feedback">{errors.name}</div>
+                )}
               </div>
             </div>
           </div>
@@ -95,47 +104,94 @@ const RegisterForm = () => {
         <div className="row">
           <div className="col-md-6">
             <div className="form-group">
-              <div className={`form-group m-3 ${errors.password && 'was-validated'}`}>
+              <div
+                className={`form-group m-3 ${
+                  errors.email && "was-validated"
+                }`}
+              >
+                <label htmlFor="email">Ingresá tu correo electrónico:</label>
+                <input
+                  type="text"
+                  id="email"
+                  value={username}
+                  onChange={handleUsernameChange}
+                  className={`form-control rounded-0 ${
+                    errors.email ? "is-invalid" : ""
+                  }`}
+                  required
+                  pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+                />
+                {errors.email && (
+                  <div className="invalid-feedback">{errors.email}</div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div className="row">
+          <div className="col-md-6">
+            <div className="form-group">
+              <div
+                className={`form-group m-3 ${
+                  errors.password && "was-validated"
+                }`}
+              >
                 <label htmlFor="password">Tu contraseña:</label>
                 <input
                   type="password"
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className={`form-control rounded-0 ${errors.password ? 'is-invalid' : ''}`}
+                  className={`form-control rounded-0 ${
+                    errors.password ? "is-invalid" : ""
+                  }`}
                   required
                   minLength="8"
                   pattern="(?=.*\d)(?=.*[a-zA-Z]).{8,}"
                 />
-                {errors.password && <div className="invalid-feedback">{errors.password}</div>}
+                {errors.password && (
+                  <div className="invalid-feedback">{errors.password}</div>
+                )}
               </div>
             </div>
           </div>
         </div>
 
-
         <div className="row">
           <div className="col-md-6">
             <div className="form-group">
-              <div className={`form-group m-3 ${errors.confirmPassword && 'was-validated'}`}>
-                <label htmlFor="confirm-password">Confirmá tu contraseña:</label>
+              <div
+                className={`form-group m-3 ${
+                  errors.confirmPassword && "was-validated"
+                }`}
+              >
+                <label htmlFor="confirm-password">
+                  Confirmá tu contraseña:
+                </label>
                 <input
                   type="password"
                   id="confirm-password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className={`form-control rounded-0 ${errors.confirmPassword ? 'is-invalid' : ''}`}
+                  className={`form-control rounded-0 ${
+                    errors.confirmPassword ? "is-invalid" : ""
+                  }`}
                   required
                   minLength="8"
                   pattern="(?=.*\d)(?=.*[a-zA-Z]).{8,}"
                 />
-                {errors.confirmPassword && <div className="invalid-feedback">{errors.confirmPassword}</div>}
+                {errors.confirmPassword && (
+                  <div className="invalid-feedback">
+                    {errors.confirmPassword}
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
-
 
       <button className="btn btn-primary m-3" onClick={handleRegister}>
         Registrarse
@@ -145,9 +201,7 @@ const RegisterForm = () => {
       <button className="btn btn-primary m-3" onClick={handleBack}>
         Volver
       </button>
-
     </div>
-    
   );
 };
 
