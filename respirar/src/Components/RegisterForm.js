@@ -50,6 +50,12 @@ const RegisterForm = () => {
       });
       const user = response.data;
       console.log(user);
+      const sendMail = await axios.post('http://localhost:3001/api/verify-email', {
+      user: { 
+      email: username,
+      id: user.id
+      }
+      });
       setSuccess('Registro exitoso. ¡Ahora puedes iniciar sesión!');
       setErrors({});
       setTimeout(() => {

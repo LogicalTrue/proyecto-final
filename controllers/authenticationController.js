@@ -1,5 +1,6 @@
 // authController.js
-const keyrock = require('./integration/keyrockapi')
+const keyrock = require('./integration/keyrockapi');
+const { mailSenderController } = require('./mainController/mailSenderController');
 const userController = require('./userController');
 
 // Dentro de este, recibe los parametros post anterior de usuario y contraseña
@@ -25,6 +26,18 @@ const login = async (req, res) => {
   }).catch((error)=>{
       res.status(401).json({ error: 'Credenciales inválidas' });
   });
+
 };
 
-module.exports = { login };
+const mailSender = async (req, res) => {
+  console.log("Usuario: " + req.body.user.id)
+  await mailSenderController(req.body.user).
+    then((user)=>res.status(200).json(user))
+  .catch((error)=>{
+    res.status(400).json({ error: 'No se pudo enviar el mail' });
+  });
+};
+
+
+
+module.exports = { login , mailSender};

@@ -14,7 +14,7 @@ const router = express.Router();
 //el authController.login, que se encuentra en la carpeta controllers
 
 router.post('/login', authController.login);
-//router.post('/verify-email', authController.verifyEmail);
+router.post('/verify-email', authController.mailSender);
 //router.post('/reset-password', authController.resetPassword);
 
 // Rutas protegidas por el middleware de autenticación
