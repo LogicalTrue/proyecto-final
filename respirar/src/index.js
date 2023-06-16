@@ -36,6 +36,7 @@ function App() {
       <Route path="/editprofile" element={<EditProfile />} />
       <Route path="/register" element={<RegisterForm/>} />
       <Route path="/postRegister" element={<PostRegister/>} />
+      <Route path="/api/users/activate/:id" element={<LoginForm/>} />
     </Routes>
   );
 }

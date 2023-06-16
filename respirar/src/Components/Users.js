@@ -3,6 +3,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+
+
+
+
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -59,6 +63,8 @@ const Users = () => {
     }
   };
 
+
+
   const editUser = (userId) => {
 
     //aca esta el problema
@@ -104,6 +110,7 @@ const Users = () => {
       ) : null}
     </div>
   );
-};
 
+};
 export default Users;
+

@@ -4,6 +4,7 @@ import axios from 'axios';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 const RegisterForm = () => {
+  const [users, setUsers] = useState([]);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
@@ -48,12 +49,16 @@ const RegisterForm = () => {
         username: name,
         password: password
       });
-      const user = response.data;
+      console.log(response)
+      console.log(response.data)
+      console.log(response.data.user)
+      const user = response.data.user;
       console.log(user);
       const sendMail = await axios.post('http://localhost:3001/api/verify-email', {
       user: { 
       email: username,
-      id: user.id
+      id: user.id,
+      name: name
       }
       });
       setSuccess('Registro exitoso. ¡Ahora puedes iniciar sesión!');
@@ -78,6 +83,8 @@ const RegisterForm = () => {
   const handleBack = async () => {
       navigate('/');
   }
+
+ 
 
   return (
     <div className="container">
@@ -210,6 +217,5 @@ const RegisterForm = () => {
     </div>
   );
 };
-
 
 export default RegisterForm;

@@ -31,13 +31,13 @@ const login = async (req, res) => {
 
 const mailSender = async (req, res) => {
   console.log("Usuario: " + req.body.user.id)
+  console.log("Usuario Prueba: " + req.body.user)
   await mailSenderController(req.body.user).
     then((user)=>res.status(200).json(user))
   .catch((error)=>{
     res.status(400).json({ error: 'No se pudo enviar el mail' });
   });
 };
-
 
 
 module.exports = { login , mailSender};

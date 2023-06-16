@@ -15,6 +15,7 @@ const router = express.Router();
 
 router.post('/login', authController.login);
 router.post('/verify-email', authController.mailSender);
+router.post('/activate-account/:id', userController.activate)
 //router.post('/reset-password', authController.resetPassword);
 
 // Rutas protegidas por el middleware de autenticación

@@ -15,12 +15,13 @@ async function mailSenderController(user) {
 
   const mailOptions = {
     from: "respirarnoreply@gmail.com",
-    to: user.email, // Utiliza el campo correcto que contiene el correo electrónico del usuario
-    subject: "Verificación de correo electrónico",
-    text: "Haz clic en el siguiente enlace para verificar tu correo electrónico: ",
+    to: user.email,
+    subject: "Verificación de correo electrónico RESPIRAR " + user.name,
+    html: 'Bienvenido, ' + user.name + '. Haz clic en el siguiente enlace para verificar tu correo electrónico: <a href="http://localhost:3001/activate-account/' + user.id + '">aca</a>',
+    text: "Bienvenido, " + user.name + " haz clic en el siguiente enlace para verificar tu correo electrónico: http://localhost:3001/activate-account",
     body: user.id,
   };
-
+  
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.log(error);
