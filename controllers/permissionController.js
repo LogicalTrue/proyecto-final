@@ -46,6 +46,15 @@ const assigntPermission = async (req, res) => {
   });
 };
 
+const deletePermission =  async (req, res) => {
+  token = req.session.token;
+  await keyrock.permission.delete(token, req.params.id).
+    then((users)=>res.status(200).json(users))
+  .catch((error)=>{
+    res.status(400).json({ error: 'No se pudo obtener el usuario' });
+  });
+};
 
 
-  module.exports = { createPermission, getPermissions, assigntPermission };
+
+  module.exports = { createPermission, getPermissions, assigntPermission, deletePermission };

@@ -30,6 +30,20 @@ const Users = () => {
     }
   };
 
+  const viewRoles = (userId) => {
+    const user = users.find((user) => user.id === userId);
+    navigate('/rolesbyuser', { state: { userId, adminUser: state.user } });
+  };
+
+  const deleteUser = async (userId) => {
+    try {
+      await axios.delete(`http://localhost:3001/api/users/${userId}`);
+      console.log(`Usuario ${userId} eliminado.`);
+    } catch (error) {
+      console.error('Error al eliminar el usuario', error);
+    }
+  };
+
   const updateEnable = async (userId) => {
     try {
       const user = users.find((user) => user.id === userId);
@@ -61,7 +75,6 @@ const Users = () => {
 
   const editUser = (userId) => {
 
-    //aca esta el problema
     const user = users.find((user) => user.id === userId);
     navigate('/adminuseredit', { state: { userId, adminUser: state.user } });
   };
@@ -93,6 +106,12 @@ const Users = () => {
                         <button className="btn btn-secondary" onClick={() => editUser(user.id)}>
                           Editar
                         </button>
+                        <button className="btn btn-info ms-2" onClick={() => viewRoles(user.id)}>
+                          Ver roles
+                        </button>
+                        <button className="btn btn-danger  ms-2" onClick={() => deleteUser(user.id)}>
+                        Eliminar
+                      </button>
                       </div>
                     </td>
                   </tr>

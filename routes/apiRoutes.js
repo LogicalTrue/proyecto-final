@@ -5,7 +5,27 @@ const userController = require('../controllers/userController');
 const roleController = require('../controllers/roleController');
 const permissionController = require('../controllers/permissionController')
 
+
 const router = express.Router();
+
+router.use(function (req, res, next){
+    //console.log(req.method, req.url, req.session.permissions);
+
+    if(req.session.permissions==null || !Array.isArray(req.session.permissions) || ("Admin" in req.session.permissions)){
+        next('route');
+        return;
+    }
+    else{
+        for(let permission of req.session.permissions.Resource){
+            if(permission.action === req.method && permission.resource=== req.url){
+                next('route');
+                return;
+            }
+        }
+        res.status(401).json({ error: 'No tiene permisos para acceder a este recurso' });
+    }
+})
+
 
 // Rutas de autenticación
 // router.post('/register', userController.createUser);
@@ -23,23 +43,26 @@ router.post('/login', authController.login);
 // Rutas de usuarios
 router.get('/users', userController.getUsers);
 router.get('/users/:id', userController.getUser);
+router.get('/user/:id/roles', userController.getRolesByUser); //probar
+router.get('/users/activate/:id', userController.activate)
 router.patch('/users/', userController.updateUser);
 router.post('/users', userController.createUser);
 router.post('/changeCreateUserAsPublic', userController.changeCreateUserAsPublic);
-// router.delete('/users/:id', userController.deleteUser);
+router.delete('/users/:id', userController.deleteUser); // ok
 
 // Rutas de roles
 router.post('/roles', roleController.createRole)
 router.put('/roles/assignt', roleController.assigntRole) // ok
 router.get('/roles', roleController.getRoles);
-// router.get('/roles/:id', roleController.getRole);
-// router.put('/roles/:id', roleController.updateRole);
-// router.delete('/roles/:id', roleController.deleteRole);
+router.get('/roles/:id', roleController.getRole);
+router.delete('/roles/:id', roleController.deleteRole); // probar
 
 //Rutas de permisos
-
 router.post('/permissions', permissionController.createPermission)
 router.get('/permissions', permissionController.getPermissions)
 router.put('/permissions/assignt', permissionController.assigntPermission)
+router.delete('/permissions/:id', permissionController.deletePermission); // probar
+
+
 
 module.exports = router;

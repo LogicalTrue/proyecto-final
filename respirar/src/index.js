@@ -10,12 +10,13 @@ import Profile from './Components/Profile';
 import Roles from './Components/Roles';
 import EditProfile from './Components/EditProfile';
 import RegisterForm from './Components/RegisterForm';
-import PostRegister from './Components/PostRegister';
 import CreateRole from './Components/CreateRole';
 import AssignRole from './Components/AssignRole';
 import CreatePermission from './Components/CreatePermission'
 import AssignPermission from './Components/AssignPermission';
 import AdminUserEdit from './Components/AdminEditUser'
+import RolesByUser from './Components/RolesByUser'
+import Confirmation from './Components/Confirmation'
 
 
 //Aca configuramos solamente rutas y a que componente va dirigido
@@ -29,13 +30,14 @@ function App() {
       <Route path="/roles" element={<Roles />} />
       <Route path="/createrole" element={<CreateRole />} />
       <Route path="/assignrole" element={<AssignRole />} />
+      <Route path="/rolesbyuser" element={<RolesByUser/>} />
       <Route path="/createpermission" element={<CreatePermission />} />
       <Route path="/assignpermission" element={<AssignPermission />} />
       <Route path="/adminuseredit" element={<AdminUserEdit />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/editprofile" element={<EditProfile />} />
       <Route path="/register" element={<RegisterForm/>} />
-      <Route path="/postRegister" element={<PostRegister/>} />
+      <Route path="/confirmation/:id" element={<Confirmation/>} />
     </Routes>
   );
 }

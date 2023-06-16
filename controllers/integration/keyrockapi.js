@@ -82,17 +82,12 @@ const Api = {
         method: 'DELETE',
         headers: ApiHeader(token)
     }),
-    GetUsers: (token) => {
-        console.log("La ruta es : " + ApiRoute)
-        console.log(ApiHeader(token))
-
-        return {
-            baseURL: ApiRoute,
-            url: '/users',
-            method: 'GET',
-            headers: ApiHeader(token)
-        };
-    },
+    GetUsers: (token) => ({
+        baseURL: ApiRoute,
+        url: '/users',
+        method: 'GET',
+        headers: ApiHeader(token)
+    }),
     GetUser: (token, id) => ({
         baseURL: ApiRoute,
         url: `/users/${id}`,
@@ -121,23 +116,56 @@ const Api = {
     }),
 
     UpdateUser: (token, data) => {
+        console.log("dentro de update : " + data
+        )
+        return { 
 
-        console.log("el usuario id es  : " + data.user.id)
-        console.log("el usuario esta habilitado : " + data.user.description)
-
-        return {
         baseURL: ApiRoute,
         url: `/users/${data.user.id}`,
         method: 'PATCH',
         headers: ApiHeader(token),
         data: OmitKeys(['user.id'], data),
-    }},
+    }
+},
+    DeleteUser: (token, id) => ({
+        baseURL: ApiRoute,
+        url: `/users/${id}`,
+        method: 'DELETE',
+        headers: ApiHeader(token)
+    }),
+
+    GetRolesByUser: (token, data) => {
+        console.log("Dentro de getRoles " + data.appId)
+        return {
+            baseURL: ApiRoute,
+            url: `/applications/${data.appId}/users/${data.userId}/roles`,
+            method: 'GET',
+            headers: ApiHeader(token),
+        }
+    },
+
+    // GetRoles
 
 
     //Roles  
-    GetRole: (token, id) => ({
+    GetRoles: (token, id) => ({
         baseURL: ApiRoute,
         url: `/applications/${id}/roles`,
+        method: 'GET',
+        headers: ApiHeader(token)
+    }),
+
+    GetRole: (token, data) => ({
+        baseURL: ApiRoute,
+        url: `/applications/${data.appId}/roles/${data.roleId}`,
+        method: 'GET',
+        headers: ApiHeader(token)
+
+    }),
+
+    GetUserRoles: (token, data) => ({
+        baseURL: ApiRoute,
+        url: `applications/${data.appId}/users/${data.userId}/roles`,
         method: 'GET',
         headers: ApiHeader(token)
     }),
@@ -150,19 +178,19 @@ const Api = {
         data: data.body
     }),
 
-    AssignRole: (token, data) => {
+    AssignRole: (token, data) => ({
+        baseURL: ApiRoute,
+        url: `/applications/${data.appId}/users/${data.userId}/roles/${data.roleId}`,
+        method: 'PUT',
+        headers: ApiHeader(token),
+    }),
+    DeleteRole: (token, id) => ({
+        baseURL: ApiRoute,
+        url: `/roles/${id}`,
+        method: 'DELETE',
+        headers: ApiHeader(token)
+    }),
 
-        console.log("el token es : " + token)
-        console.log("app id es : " + data.appId)
-
-        return {
-            baseURL: ApiRoute,
-            url: `/applications/${data.appId}/users/${data.userId}/roles/${data.roleId}`,
-            method: 'PUT',
-            headers: ApiHeader(token),
-        };
-
-    },
 
     //Permisos
     GetPermission: (token, id) => ({
@@ -172,6 +200,12 @@ const Api = {
         headers: ApiHeader(token)
     }),
 
+    GetRolePermissions: (token, data) => ({
+        baseURL: ApiRoute,
+        url: `applications/${data.appId}/roles/${data.roleId}/permissions`,
+        method: 'GET',
+        headers: ApiHeader(token)
+    }),
 
     CreatePermission: (token, data) => ({
         baseURL: ApiRoute,
@@ -180,21 +214,19 @@ const Api = {
         headers: ApiHeader(token),
         data: data.body
     }),
-    
-    AssignPermission: (token, data) => {
 
-        console.log("el token es : " + token)
-        console.log("app id es : " + data.roleId)
-        console.log("app id es : " + data.permissionId)
-
-        return {
-            baseURL: ApiRoute,
-            url: `/applications/${data.appId}/roles/${data.roleId}/permissions/${data.permissionId}`,
-            method: 'PUT',
-            headers: ApiHeader(token),
-        };
-
-    },
+    AssignPermission: (token, data) => ({
+        baseURL: ApiRoute,
+        url: `/applications/${data.appId}/roles/${data.roleId}/permissions/${data.permissionId}`,
+        method: 'PUT',
+        headers: ApiHeader(token),
+    }),
+    DeletePermission: (token, id) => ({
+        baseURL: ApiRoute,
+        url: `/permissions/${id}`,
+        method: 'DELETE',
+        headers: ApiHeader(token)
+    }),
 
 
 }
@@ -211,15 +243,20 @@ const keyrock = {
         //key, token, action, params
         findAll: (token) => FilteredTokenizedRequest(['data', "users"], token, Api.GetUsers),
         findOne: (token, id) => FilteredTokenizedRequest('data', token, Api.GetUser, id),
+        findRoles: (token, data) => FilteredTokenizedRequest('data', token, Api.GetRolesByUser, data), //problema
         findByToken: (token) => FilteredTokenizedRequest(['data', 'User'], token, Api.UserOfToken),
         update: (token, body) => FilteredTokenizedRequest('data', token, Api.UpdateUser, body),
-        create: (token, body) => FilteredTokenizedRequest('data', token, Api.CreateUser, body),
+        create: (token, body) => FilteredTokenizedRequest(['data', "user"], token, Api.CreateUser, body),
+        delete: (token, id) => FilteredTokenizedRequest('data', token, Api.DeleteUser, id)
     },
     role: {
         //modificar a One en ves de All
-        findAll: (token, id) => FilteredTokenizedRequest(['data', "roles"], token, Api.GetRole, id),
+        findAll: (token, id = null) => FilteredTokenizedRequest(['data', "roles"], token, Api.GetRoles, id),
+        findOne: (token, data) => FilteredTokenizedRequest('data', token, Api.GetRole, data),
+        getByUser: (token, data) => FilteredTokenizedRequest(['data', "role_user_assignments"], token, Api.GetUserRoles, data),
         create: (token, data) => FilteredTokenizedRequest('data', token, Api.CreateRole, data),
-        assignrole: (token, data) => FilteredTokenizedRequest('data', token, Api.AssignRole, data)
+        assignrole: (token, data) => FilteredTokenizedRequest('data', token, Api.AssignRole, data),
+        delete: (token, id) => FilteredTokenizedRequest('data', token, Api.DeleteRole, id)
     },
     auth: {
         login: (username, password) => FilteredTokenizedRequest(['headers', 'x-subject-token'], null, Api.Login, { name: username, password: password }),
@@ -228,9 +265,11 @@ const keyrock = {
         getSessionExpires: (token) => FilteredTokenizedRequest(['data', 'expires'], token, Api.UserOfToken),
     },
     permission: {
+        findByRole: (token, data) => FilteredTokenizedRequest(['data', "role_permission_assignments"], token, Api.GetRolePermissions, data),
         findOne: (token, id) => FilteredTokenizedRequest(['data', "permissions"], token, Api.GetPermission, id),
         create: (token, data) => FilteredTokenizedRequest('data', token, Api.CreatePermission, data),
-        assignpermission: (token, data) => FilteredTokenizedRequest('data', token, Api.AssignPermission, data)
+        assignpermission: (token, data) => FilteredTokenizedRequest('data', token, Api.AssignPermission, data),
+        delete: (token, id) => FilteredTokenizedRequest('data', token, Api.DeletePermission, id)
     },
     apps: {
         create: (token, data) => FilteredTokenizedRequest('data', token, Api.CreateApp, data),

@@ -2,7 +2,7 @@ const keyrock = require('./integration/keyrockapi');
 const config = require('./integration/config.js');
 const storage = require('node-persist');
 const schedule = require('node-schedule')
-
+const path = require("path")
 
 async function TokenForCreateUser(token=null){
   await storage.init().catch((error)=>{if(config.api.debug) console.log(error);});;
@@ -27,6 +27,8 @@ async function TokenForCreateUser(token=null){
 async function getStateCreateUserAsPublic(){
   return await TokenForCreateUser() !=null;
 }
+
+
 async function setStateCreateUserAsPublic(token=null){
   token = await TokenForCreateUser(token);
   /// automatizar la actualizacion de tokens una vez que se habilita
@@ -50,13 +52,36 @@ const changeCreateUserAsPublic = async (req, res) => {
 const createUser = async (req, res) => {
   const token = await TokenForCreateUser();
   await keyrock.user.create(token, {user: req.body}).
-  then((user)=>res.status(200).json(user))
+  then(async (user)=>{
+   
+    //Agregar Rol base
+    await keyrock.role.assignrole(token, {appId:config.api.client, roleId:"provider", userId:user.id})
+    .catch((error)=>{if(config.api.debug) console.log(error.response.data.error);});
+    
+    await keyrock.user.update(token, {user: {id:user.id, enabled:false}})
+    .catch((error) => {if(config.api.debug) console.log(error.response.data.error);});
+    //Enviar mail de confirmacion con la direccion a la ruta de activacion
+
+      res.status(200).json({"Creado":true})
+    })
+
+
   .catch((error)=>{
     if(config.api.debug) console.log(error.response.data.error);
     res.status(400).json({ error: 'No se pudo crear el usuario'});
   });
 };
 
+const activate = async(req, res)=>{
+    const token = await TokenForCreateUser();
+     await keyrock.user
+    .update(token, {user: {id:req.params.id, enabled:true}}) 
+    .then((user) => {
+    })
+    .catch((error) => {
+    });
+    res.sendFile(path.dirname(__dirname)+'/respirar/build/index.html');  //Para redirigir la respuesta a react - desde react pueden tomar esta
+}
 
 const getUsers = async (req, res) => {
   token = req.session.token;
@@ -96,4 +121,27 @@ const updateUser = async (req, res) => {
     });
 };
 
-module.exports = { createUser, getUsers, getUser, updateUser, changeCreateUserAsPublic, getStateCreateUserAsPublic};
+const deleteUser =  async (req, res) => {
+  token = req.session.token;
+
+  console.log("id " + req.params.id)
+  await keyrock.user.delete(token, req.params.id).
+    then((users)=>res.status(200).json(users))
+  .catch((error)=>{
+    res.status(400).json({ error: 'No se pudo obtener el usuario' });
+  });
+};
+
+const getRolesByUser =  async (req, res) => {
+  token = req.session.token; 
+  console.log("User id: " + req.params.id)
+  await keyrock.user.findRoles(token, {userId: req.params.id, appId : config.api.client}).
+    then((users)=>res.status(200).json(users))
+  .catch((error)=>{
+    res.status(400).json({ error: 'No se pudo obtener lista de roles' });
+  });
+};
+
+//getRoles
+
+module.exports = { createUser, getUsers, getUser, updateUser, changeCreateUserAsPublic, getStateCreateUserAsPublic, activate, deleteUser, getRolesByUser};

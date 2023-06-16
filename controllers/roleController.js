@@ -27,6 +27,19 @@ const getRoles = async (req, res) => {
       });
 };
 
+//falta realizar
+
+const getRole = async (req, res) => {
+  token = req.session.token;
+
+  console.log("dentro del metodo " + req.params.id)
+  await keyrock.role.findOne(token, {roleId: req.params.id, appId : config.api.client}).
+    then((roles)=>res.status(200).json(roles))
+  .catch((error)=>{
+    res.status(400).json({ error: 'No se pudieron obtener los roles' });
+  });
+};
+
 //assigntRole
 
 const assigntRole = async (req, res) => {
@@ -46,5 +59,14 @@ const assigntRole = async (req, res) => {
   });
 };
 
+const deleteRole =  async (req, res) => {
+  token = req.session.token;
+  await keyrock.role.delete(token, req.params.id).
+    then((users)=>res.status(200).json(users))
+  .catch((error)=>{
+    res.status(400).json({ error: 'No se pudo obtener el usuario' });
+  });
+};
 
-module.exports = { createRole, getRoles, assigntRole };
+
+module.exports = { createRole, getRoles, getRole, assigntRole, deleteRole};

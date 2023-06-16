@@ -48,7 +48,7 @@ const AssignPermission = () => {
   const assignPermission = async () => {
     try {
       // Realiza la llamada para asignar el permiso seleccionado al rol seleccionado
-      await axios.put('http://localhost:3001/api/permissions/assign', {
+      await axios.put('http://localhost:3001/api/permissions/assignt', {
         roleId: selectedRole,
         permissionId: selectedPermission,
       });
