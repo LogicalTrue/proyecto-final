@@ -8,6 +8,8 @@ const EditProfile = () => {
   const [username, setUsername] = useState('');
   const [description, setDescription] = useState('');
   const [website, setWebsite] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
@@ -36,25 +38,46 @@ const EditProfile = () => {
         username: username,
         password: password,
         description: description,
-        website: website
+        website: website,
       };
-      const response = await axios.patch(`http://localhost:3001/api/users`, body);
-      const updatedProfile = response.data;
+
+      const response = await axios.get(`http://localhost:3001/api/users`);
+      const users = response.data;
+
+      if (isUsernameTaken(username, users)) {
+        setErrorMessage('El nombre de usuario ya está en uso');
+        return;
+      }
+
+      const updateResponse = await axios.patch(`http://localhost:3001/api/users`, body);
+      const updatedProfile = updateResponse.data;
       setProfile(updatedProfile);
-      backToMain();
-      window.location.reload(); // Recargar la página
+      setSuccessMessage('Perfil actualizado exitosamente.');
+      setErrorMessage('');
     } catch (error) {
       console.error('Error al actualizar el perfil del usuario:', error);
     }
   };
 
-  const backToMain = () => {
-    navigate('/main', { state });
+  const isUsernameTaken = (username, users) => {
+    return users.some((user) => user.username === username);
   };
 
   return (
     <div className="container">
       <h1>Editar Perfil</h1>
+
+      {successMessage && (
+        <div className="alert alert-success" role="alert">
+          {successMessage}
+        </div>
+      )}
+
+      {errorMessage && (
+        <div className="alert alert-danger" role="alert">
+          {errorMessage}
+        </div>
+      )}
 
       <div className="form-group">
         <input

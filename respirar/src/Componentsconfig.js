@@ -2,11 +2,11 @@
 import Users from './Components/Users';
 import Roles from './Components/Roles';
 import CreateRole from './Components/CreateRole';
-import AssignRole from './Components/AssignRole';
 import CreatePermission from './Components/CreatePermission';
 import AssignPermission from './Components/AssignPermission';
 import Profile from './Components/Profile';
 import EditProfile from './Components/EditProfile';
+import Permissions from './Components/Permissions'
 
 const components = {
     'Users': { 
@@ -27,12 +27,6 @@ const components = {
         "Title": "Crear Roles",
         "permissions":["CREAR ROLES"] //falla
     },
-    'AssignRole': { 
-        "component":AssignRole,
-        "onClick":'AssignRole',
-        "Title": "Asignar Roles",
-        "permissions":["ASIGNAR ROLES"]
-    },
     'CreatePermission': { 
         "component":CreatePermission,
         "onClick":'CreatePermission',
@@ -44,6 +38,12 @@ const components = {
         "onClick":'AssignPermission',
         "Title": "Asignar Permisos",
         "permissions":["ASIGNAR PERMISOS"]
+    },
+    'Permissions': { 
+        "component":Permissions,
+        "onClick":'Permissions',
+        "Title": "Permisos",
+        "permissions":["VER PERMISOS"]
     },
     'Profile': { 
         "component":Profile,

@@ -11,12 +11,15 @@ import Roles from './Components/Roles';
 import EditProfile from './Components/EditProfile';
 import RegisterForm from './Components/RegisterForm';
 import CreateRole from './Components/CreateRole';
-import AssignRole from './Components/AssignRole';
 import CreatePermission from './Components/CreatePermission'
 import AssignPermission from './Components/AssignPermission';
 import AdminUserEdit from './Components/AdminEditUser'
 import RolesByUser from './Components/RolesByUser'
 import Confirmation from './Components/Confirmation'
+import EditRole from './Components/EditRole'
+import Permissions from './Components/Permissions'
+import EditPermission from './Components/EditPermission'
+import PermissionsByRole from './Components/PermissionsByRole'
 
 
 //Aca configuramos solamente rutas y a que componente va dirigido
@@ -28,15 +31,18 @@ function App() {
       <Route path="/main" element={<Main />} />
       <Route path="/users" element={<Users />} />
       <Route path="/roles" element={<Roles />} />
+      <Route path="/permissions" element={<Permissions />} />
+      <Route path="/editpermission" element={<EditPermission />} />
       <Route path="/createrole" element={<CreateRole />} />
-      <Route path="/assignrole" element={<AssignRole />} />
       <Route path="/rolesbyuser" element={<RolesByUser/>} />
+      <Route path="/permissionsbyrole" element={<PermissionsByRole/>} />
       <Route path="/createpermission" element={<CreatePermission />} />
       <Route path="/assignpermission" element={<AssignPermission />} />
       <Route path="/adminuseredit" element={<AdminUserEdit />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/editprofile" element={<EditProfile />} />
       <Route path="/register" element={<RegisterForm/>} />
+      <Route path="/editrole" element={<EditRole/>} />
       <Route path="/confirmation/:id" element={<Confirmation/>} />
     </Routes>
   );

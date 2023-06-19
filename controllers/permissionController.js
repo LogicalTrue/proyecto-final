@@ -16,7 +16,7 @@ const createPermission = async (req, res) => {
     await keyrock.permission.create(token, data).
       then((roles)=>res.status(200).json(roles))
     .catch((error)=>{
-      res.status(400).json({ error: 'No se pudieron obtener los roles' });
+      res.status(400).json({ error: 'No se puede crear el permiso' });
     });
   };
 
@@ -26,7 +26,7 @@ const getPermissions = async (req, res) => {
     await keyrock.permission.findOne(token, config.api.client).
       then((roles)=>res.status(200).json(roles))
     .catch((error)=>{
-      res.status(400).json({ error: 'No se pudieron obtener los roles' });
+      res.status(400).json({ error: 'No se pudieron obtener los permisos' });
     });
 };
 
@@ -42,19 +42,46 @@ const assigntPermission = async (req, res) => {
   await keyrock.permission.assignpermission(token, data).
     then((roles)=>res.status(200).json(roles))
   .catch((error)=>{
-    res.status(400).json({ error: 'No se pudo asignar rol' });
+    res.status(400).json({ error: 'No se pudo asignar permiso' });
   });
 };
 
 const deletePermission =  async (req, res) => {
   token = req.session.token;
-  await keyrock.permission.delete(token, req.params.id).
+  console.log("id entra: " + req.params.id)
+
+  let data = {
+    appId: config.api.client,
+    permissionId : req.params.id
+
+  }
+  await keyrock.permission.delete(token, data).
     then((users)=>res.status(200).json(users))
   .catch((error)=>{
-    res.status(400).json({ error: 'No se pudo obtener el usuario' });
+    res.status(400).json({ error: 'No se pudo eliminar el permiso' });
   });
+};
+
+const updatePermission = async (req, res) => {
+  token = req.session.token;
+
+ await keyrock.permission
+   .update(token, 
+    {permission : { 
+    application_id : config.api.client, 
+    permissionId : req.body.permissionId, 
+    description: req.body.description, 
+    name : req.body.name, 
+    xml : req.body.xml
+  } }) 
+   .then((user) => {
+     res.status(201).json(user);
+   })
+   .catch((error) => {
+     res.status(400).json({ error: 'No se pudo actualizar el permiso' });
+   });
 };
 
 
 
-  module.exports = { createPermission, getPermissions, assigntPermission, deletePermission };
+  module.exports = { createPermission, getPermissions, assigntPermission, deletePermission, updatePermission };

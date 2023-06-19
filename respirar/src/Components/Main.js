@@ -85,7 +85,7 @@ const Main = () => {
           { getComponentNav('Users') }
           {  getComponentNav('Roles') }
           {  getComponentNav('CreateRole') }
-          {  getComponentNav('AssignRole') }
+          {  getComponentNav('Permissions') } 
           {  getComponentNav('CreatePermission') }
           {  getComponentNav('AssignPermission') }
           {  getComponentNav('Profile') }

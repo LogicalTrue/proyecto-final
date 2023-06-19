@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
@@ -38,9 +39,13 @@ const Users = () => {
   const deleteUser = async (userId) => {
     try {
       await axios.delete(`http://localhost:3001/api/users/${userId}`);
-      console.log(`Usuario ${userId} eliminado.`);
+      setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+      setSuccessMessage('Usuario eliminado exitosamente');
+      setTimeout(() => {
+        setSuccessMessage('');
+      }, 3000);
     } catch (error) {
-      console.error('Error al eliminar el usuario', error);
+      console.error('Error al eliminar el usuario:', error);
     }
   };
 
@@ -69,18 +74,18 @@ const Users = () => {
 
       console.log(updatedUser);
     } catch (error) {
-      console.error('Error al suspender el usuario', error);
+      console.error('Error al suspender el usuario:', error);
     }
   };
 
   const editUser = (userId) => {
-
     const user = users.find((user) => user.id === userId);
     navigate('/adminuseredit', { state: { userId, adminUser: state.user } });
   };
 
   return (
     <div className="container my-4">
+      {successMessage && <div className="alert alert-success">{successMessage}</div>}
       {isAdmin ? (
         <div>
           <h2 className="mb-4">Lista de usuarios</h2>
@@ -110,8 +115,8 @@ const Users = () => {
                           Ver roles
                         </button>
                         <button className="btn btn-danger  ms-2" onClick={() => deleteUser(user.id)}>
-                        Eliminar
-                      </button>
+                          Eliminar
+                        </button>
                       </div>
                     </td>
                   </tr>

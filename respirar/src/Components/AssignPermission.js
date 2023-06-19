@@ -11,6 +11,7 @@ const AssignPermission = () => {
   const [permissions, setPermissions] = useState([]);
   const [selectedRole, setSelectedRole] = useState('');
   const [selectedPermission, setSelectedPermission] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     fetchPermissions();
@@ -47,12 +48,12 @@ const AssignPermission = () => {
 
   const assignPermission = async () => {
     try {
-      // Realiza la llamada para asignar el permiso seleccionado al rol seleccionado
       await axios.put('http://localhost:3001/api/permissions/assignt', {
         roleId: selectedRole,
         permissionId: selectedPermission,
       });
       console.log('Permiso asignado correctamente');
+      setSuccessMessage('El permiso se ha asignado correctamente.');
     } catch (error) {
       console.error('Error al asignar el permiso:', error);
     }
@@ -63,6 +64,11 @@ const AssignPermission = () => {
       <div className="card">
         <div className="card-body">
           <h1 className="card-title">Asignar Permiso</h1>
+          {successMessage && (
+            <div className="alert alert-success" role="alert">
+              {successMessage}
+            </div>
+          )}
           <div className="mb-3">
             <label htmlFor="role" className="form-label">Rol:</label>
             <select id="role" className="form-select" value={selectedRole} onChange={handleRoleChange}>
@@ -85,7 +91,7 @@ const AssignPermission = () => {
               ))}
             </select>
           </div>
-          <div class="d-grid gap-2 d-md-block">
+          <div className="d-grid gap-2 d-md-block">
             <button className="btn btn-primary" type="button" onClick={assignPermission}>Asignar Permiso</button>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const AdminEditUser = () => {
   const navigate = useNavigate();
@@ -18,9 +19,13 @@ const AdminEditUser = () => {
     description: '',
     website: '',
   });
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [userList, setUserList] = useState([]);
 
   useEffect(() => {
     getUser();
+    getUserList();
   }, []);
 
   const getUser = async () => {
@@ -34,6 +39,16 @@ const AdminEditUser = () => {
     }
   };
 
+  const getUserList = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3001/api/users`);
+      const userListData = response.data;
+      setUserList(userListData);
+    } catch (error) {
+      console.error('Error al obtener la lista de usuarios:', error);
+    }
+  };
+
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
     const newValue = type === 'checkbox' ? checked : value;
@@ -44,11 +59,69 @@ const AdminEditUser = () => {
     }));
   };
 
+  const showSuccessMessage = (message) => {
+    setSuccessMessage(message);
+    setTimeout(() => {
+      setSuccessMessage('');
+    }, 2000);
+  };
+
+  const showErrorMessage = (message) => {
+    setErrorMessage(message);
+    setTimeout(() => {
+      setErrorMessage('');
+    }, 2000);
+  };
+
+  const validateForm = () => {
+    const { username, email } = formData;
+
+    if (!username || !email) {
+      showErrorMessage('Por favor, complete todos los campos');
+      return false;
+    }
+
+    if (!isValidEmail(email)) {
+      showErrorMessage('Por favor, ingrese un correo electrónico válido');
+      return false;
+    }
+
+    if (isUsernameDuplicate(username)) {
+      showErrorMessage('El nombre de usuario ya existe');
+      return false;
+    }
+
+    if (isEmailDuplicate(email)) {
+      showErrorMessage('El correo electrónico ya está en uso');
+      return false;
+    }
+
+    return true;
+  };
+
+  const isValidEmail = (email) => {
+    // Validación básica de correo electrónico
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const isUsernameDuplicate = (username) => {
+    return userList.some((user) => user.username === username);
+  };
+
+  const isEmailDuplicate = (email) => {
+    return userList.some((user) => user.email === email);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!userId) {
       console.error('ID de usuario no definido');
+      return;
+    }
+
+    if (!validateForm()) {
       return;
     }
 
@@ -67,6 +140,8 @@ const AdminEditUser = () => {
       const response = await axios.patch(`http://localhost:3001/api/users/`, body);
       const updatedUser = response.data;
       console.log(updatedUser);
+
+      showSuccessMessage('Usuario actualizado correctamente');
     } catch (error) {
       console.error('Error al modificar el usuario:', error);
     }
@@ -82,6 +157,8 @@ const AdminEditUser = () => {
 
   return (
     <div className="container mt-4">
+      {successMessage && <div className="alert alert-success">{successMessage}</div>}
+      {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
       <h2>Modificar usuario</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">

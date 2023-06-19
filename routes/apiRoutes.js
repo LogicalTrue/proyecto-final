@@ -43,7 +43,7 @@ router.post('/login', authController.login);
 // Rutas de usuarios
 router.get('/users', userController.getUsers);
 router.get('/users/:id', userController.getUser);
-router.get('/user/:id/roles', userController.getRolesByUser); //probar
+router.get('/user/:id/roles', userController.getRolesByUser); // ok
 router.get('/users/activate/:id', userController.activate)
 router.patch('/users/', userController.updateUser);
 router.post('/users', userController.createUser);
@@ -52,16 +52,21 @@ router.delete('/users/:id', userController.deleteUser); // ok
 
 // Rutas de roles
 router.post('/roles', roleController.createRole)
+router.patch('/roles', roleController.updateRole)
 router.put('/roles/assignt', roleController.assigntRole) // ok
 router.get('/roles', roleController.getRoles);
 router.get('/roles/:id', roleController.getRole);
-router.delete('/roles/:id', roleController.deleteRole); // probar
+router.get('/roles/:id/permissions', roleController.getAllPermissions) // desarrollar
+router.delete('/roles/:id', roleController.deleteRole); // ok
+router.delete('/assignt/delete/users/:userId/roles/:roleId', roleController.assigntDelete)
+
 
 //Rutas de permisos
 router.post('/permissions', permissionController.createPermission)
+router.patch('/permissions', permissionController.updatePermission) // ok
 router.get('/permissions', permissionController.getPermissions)
 router.put('/permissions/assignt', permissionController.assigntPermission)
-router.delete('/permissions/:id', permissionController.deletePermission); // probar
+router.delete('/permissions/:id', permissionController.deletePermission); // ok
 
 
 

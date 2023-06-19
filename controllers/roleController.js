@@ -61,12 +61,63 @@ const assigntRole = async (req, res) => {
 
 const deleteRole =  async (req, res) => {
   token = req.session.token;
-  await keyrock.role.delete(token, req.params.id).
+  data = {
+    roleId : req.params.id,
+    appId: config.api.client
+  }
+
+  await keyrock.role.delete(token, data).
     then((users)=>res.status(200).json(users))
   .catch((error)=>{
-    res.status(400).json({ error: 'No se pudo obtener el usuario' });
+    res.status(400).json({ error: 'No se pudo eliminar el rol' });
+  });
+};
+
+const updateRole = async (req, res) => {
+  token = req.session.token;
+  console.log(req.body.roleId)
+ await keyrock.role
+   .update(token, {role : { application_id : config.api.client, roleId : req.body.roleId, name : req.body.name } }) 
+   .then((user) => {
+     res.status(201).json(user);
+   })
+   .catch((error) => {
+     res.status(400).json({ error: 'No se pudo actualizar el rol' });
+   });
+};
+
+//assigntDelete
+
+const assigntDelete = async (req, res) => {
+  token = req.session.token;
+  let data = {
+    appId: config.api.client,
+    userId: req.params.userId,
+    roleId: req.params.roleId
+  }
+  await keyrock.role.assigndelete(token, data).
+    then((roles)=>res.status(200).json(roles))
+  .catch((error)=>{
+    res.status(400).json({ error: 'No se pudo asignar rol' });
   });
 };
 
 
-module.exports = { createRole, getRoles, getRole, assigntRole, deleteRole};
+const getAllPermissions = async (req, res) => {
+  token = req.session.token;
+
+  let data = {
+    appId: config.api.client,
+    roleId: req.params.id
+  }
+  console.log("data : " + data)
+  await keyrock.role.findAllPermissions(token, data).
+    then((roles)=>res.status(200).json(roles))
+  .catch((error)=>{
+    res.status(400).json({ error: 'No se pudo asignar rol' });
+  });
+};
+
+
+
+module.exports = { createRole, getRoles, getRole, assigntRole, deleteRole, updateRole, assigntDelete, getAllPermissions};

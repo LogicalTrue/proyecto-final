@@ -6,11 +6,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const Roles = () => {
   const [roles, setRoles] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
+  const user = state.user;
 
   useEffect(() => {
+    console.log(state.user);
     checkAdminStatus();
     getRoles();
   }, []);
@@ -21,13 +24,25 @@ const Roles = () => {
   };
 
   const editRole = (roleId) => {
-    // Realiza la lógica para editar el rol con el ID proporcionado
-    console.log(`Editar el rol con ID ${roleId}`);
+    navigate('/editrole', { state: { roleId: roleId, user: user } });
   };
-  
-  const deleteRole = (roleId) => {
-    // Realiza la lógica para eliminar el rol con el ID proporcionado
-    console.log(`Eliminar el rol con ID ${roleId}`);
+
+  const deleteRole = async (roleId) => {
+    try {
+      await axios.delete(`http://localhost:3001/api/roles/${roleId}`);
+      setRoles((prevRoles) => prevRoles.filter((role) => role.id !== roleId));
+      setSuccessMessage('Rol eliminado exitosamente');
+      setTimeout(() => {
+        setSuccessMessage('');
+      }, 3000);
+    } catch (error) {
+      console.error('Error al eliminar el rol:', error);
+    }
+  };
+
+  const viewPermissions = (roleId) => {
+    console.log(roleId)
+    navigate('/permissionsbyrole', { state: { roleId: roleId, adminUser: state.user } });
   };
 
   const getRoles = async () => {
@@ -42,6 +57,7 @@ const Roles = () => {
 
   return (
     <div className="container my-4">
+      {successMessage && <div className="alert alert-success">{successMessage}</div>}
       {isAdmin ? (
         <div>
           <h2 className="mb-4">Lista de roles</h2>
@@ -55,6 +71,9 @@ const Roles = () => {
                   </button>
                   <button className="btn btn-danger ms-2" onClick={() => deleteRole(role.id)}>
                     Eliminar
+                  </button>
+                  <button className="btn btn-info ms-2" onClick={() => viewPermissions(role.id)}>
+                    Ver permisos
                   </button>
                 </div>
               </div>
