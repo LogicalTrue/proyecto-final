@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/static/css/main.e04d1f89.css",
-    "main.js": "/static/js/main.3a57f1dc.js",
+    "main.js": "/static/js/main.fb7b4390.js",
     "static/js/787.b1877114.chunk.js": "/static/js/787.b1877114.chunk.js",
     "static/media/background-respirar.jpg": "/static/media/background-respirar.afb0d92aa58e7f0584ad.jpg",
     "index.html": "/index.html",
     "main.e04d1f89.css.map": "/static/css/main.e04d1f89.css.map",
-    "main.3a57f1dc.js.map": "/static/js/main.3a57f1dc.js.map",
+    "main.fb7b4390.js.map": "/static/js/main.fb7b4390.js.map",
     "787.b1877114.chunk.js.map": "/static/js/787.b1877114.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e04d1f89.css",
-    "static/js/main.3a57f1dc.js"
+    "static/js/main.fb7b4390.js"
   ]
 }

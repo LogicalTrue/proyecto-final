@@ -52,8 +52,9 @@ router.delete('/users/:id', userController.deleteUser); // ok
 
 // Rutas de roles
 router.post('/roles', roleController.createRole)
+// router.post('/roles/:id/permissions', roleController.)
 router.patch('/roles', roleController.updateRole)
-router.put('/roles/assignt', roleController.assigntRole) // ok
+router.put('/roles/assignt/permissions', roleController.assigntRole) // ok
 router.get('/roles', roleController.getRoles);
 router.get('/roles/:id', roleController.getRole);
 router.get('/roles/:id/permissions', roleController.getAllPermissions) // desarrollar
