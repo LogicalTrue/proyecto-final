@@ -7,6 +7,9 @@ const sessions = require('express-session');
 const router = express.Router();
 
 const app = express();
+// Constants
+const PORT = 3001;
+const HOST = '0.0.0.0';
 
 // Middleware
 app.use(bodyParser.json()); 
@@ -34,8 +37,8 @@ app.use((err, req, res, next) => {
 
 
 // Iniciar el servidor
-app.listen(3001, () => {
-  console.log('Servidor iniciado en el puerto 3001');
+app.listen(PORT, HOST, () => {
+  console.log(`Running on http://${HOST}:${PORT}`);
 });
 
 app.use('/api', require('./routes/apiRoutes'));

@@ -44,7 +44,11 @@ const RolesByUser = () => {
 
   const assignRole = async () => {
     try {
-      await axios.put(`http://localhost:3001/api/roles/assignt`, {
+
+      console.log(selectedRole)
+      console.log(userId)
+
+      await axios.put(`http://localhost:3001/api/roles/assignt/users`, {
         roleId: selectedRole,
         userId: userId,
       });

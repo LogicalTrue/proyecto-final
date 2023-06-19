@@ -74,6 +74,7 @@ const createUser = async (req, res) => {
 
 const activate = async(req, res)=>{
     const token = await TokenForCreateUser();
+    console.log("a ver que onda " + req.params.id )
      await keyrock.user
     .update(token, {user: {id:req.params.id, enabled:true}}) 
     .then((user) => {

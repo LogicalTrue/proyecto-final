@@ -40,9 +40,26 @@ const getRole = async (req, res) => {
   });
 };
 
-//assigntRole
+//assigntRolePermissions
 
-const assigntRole = async (req, res) => {
+const assigntRolePermissions = async (req, res) => {
+  token = req.session.token;
+  let data = {
+    appId: config.api.client,
+    permissionId: req.body.permissionId,
+    roleId: req.body.roleId
+  }
+
+  console.log(data)
+ //ok
+  await keyrock.role.assignrolepermission(token, data).
+    then((roles)=>res.status(200).json(roles))
+  .catch((error)=>{
+    res.status(400).json({ error: 'No se pudo asignar permiso' });
+  });
+};
+
+const assigntRoleUsers = async (req, res) => {
   token = req.session.token;
   let data = {
     appId: config.api.client,
@@ -52,7 +69,7 @@ const assigntRole = async (req, res) => {
 
   console.log(data)
  //ok
-  await keyrock.role.assignrole(token, data).
+  await keyrock.role.assignroleuser(token, data).
     then((roles)=>res.status(200).json(roles))
   .catch((error)=>{
     res.status(400).json({ error: 'No se pudo asignar rol' });
@@ -86,16 +103,31 @@ const updateRole = async (req, res) => {
    });
 };
 
-//assigntDelete
 
-const assigntDelete = async (req, res) => {
+const deleteAssigntUsers = async (req, res) => {
   token = req.session.token;
   let data = {
     appId: config.api.client,
     userId: req.params.userId,
     roleId: req.params.roleId
   }
-  await keyrock.role.assigndelete(token, data).
+  await keyrock.role.assigndeleteuser(token, data).
+    then((roles)=>res.status(200).json(roles))
+  .catch((error)=>{
+    res.status(400).json({ error: 'No se pudo asignar rol' });
+  });
+};
+
+
+const deleteAssigntPermissions = async (req, res) => {
+  token = req.session.token;
+  let data = {
+    appId: config.api.client,
+    permissionId: req.params.permissionId,
+    roleId: req.params.roleId
+  }
+
+  await keyrock.role.assigndeletepermission(token, data).
     then((roles)=>res.status(200).json(roles))
   .catch((error)=>{
     res.status(400).json({ error: 'No se pudo asignar rol' });
@@ -120,4 +152,4 @@ const getAllPermissions = async (req, res) => {
 
 
 
-module.exports = { createRole, getRoles, getRole, assigntRole, deleteRole, updateRole, assigntDelete, getAllPermissions};
+module.exports = { createRole, getRoles, getRole, assigntRoleUsers, assigntRolePermissions, deleteRole, updateRole, deleteAssigntUsers, deleteAssigntPermissions, getAllPermissions};

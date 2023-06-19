@@ -52,15 +52,15 @@ router.delete('/users/:id', userController.deleteUser); // ok
 
 // Rutas de roles
 router.post('/roles', roleController.createRole)
-// router.post('/roles/:id/permissions', roleController.)
 router.patch('/roles', roleController.updateRole)
-router.put('/roles/assignt/permissions', roleController.assigntRole) // ok
+router.put('/roles/assignt/users', roleController.assigntRoleUsers) // es para usuario
+router.put('/roles/assignt/permissions', roleController.assigntRolePermissions) // es para permisos /roles/assignt/permissions
 router.get('/roles', roleController.getRoles);
 router.get('/roles/:id', roleController.getRole);
 router.get('/roles/:id/permissions', roleController.getAllPermissions) // desarrollar
 router.delete('/roles/:id', roleController.deleteRole); // ok
-router.delete('/assignt/delete/users/:userId/roles/:roleId', roleController.assigntDelete)
-
+router.delete('/assignt/delete/users/:userId/roles/:roleId', roleController.deleteAssigntUsers) // probar de quitar asignacion a usuario el rol
+router.delete('/assignt/delete/roles/:roleId/permissions/:permissionId', roleController.deleteAssigntPermissions) // probar de quitar asignacion de permiso a un rol
 
 //Rutas de permisos
 router.post('/permissions', permissionController.createPermission)

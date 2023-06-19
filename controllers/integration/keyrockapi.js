@@ -117,8 +117,7 @@ const Api = {
     }),
 
     UpdateUser: (token, data) => {
-        console.log("dentro de update : " + data
-        )
+        console.log("dentro de update : " + data.user.enabled)
         return {
 
             baseURL: ApiRoute,
@@ -190,16 +189,29 @@ const Api = {
         }
     },
 
-    AssignRole: (token, data) => ({
+    AssignRoleUser: (token, data) => ({
         baseURL: ApiRoute,
         url: `/applications/${data.appId}/users/${data.userId}/roles/${data.roleId}`,
         method: 'PUT',
         headers: ApiHeader(token),
     }),
 
-    AssignDeleteRole: (token, data) => ({
+    AssignRolePermission: (token, data) => ({
+        baseURL: ApiRoute,
+        url: `/applications/${data.appId}/roles/${data.roleId}/permissions/${data.permissionId}`,
+        method: 'PUT',
+        headers: ApiHeader(token),
+    }),
+
+    AssignDeleteRoleUser: (token, data) => ({
         baseURL: ApiRoute,
         url: `/applications/${data.appId}/users/${data.userId}/roles/${data.roleId}`,
+        method: 'DELETE',
+        headers: ApiHeader(token),
+    }),
+    AssignDeleteRolePermission: (token, data) => ({
+        baseURL: ApiRoute,
+        url: `/applications/${data.appId}/roles/${data.roleId}/permissions/${data.permissionId}`,
         method: 'DELETE',
         headers: ApiHeader(token),
     }),
@@ -296,8 +308,10 @@ const keyrock = {
         findAllPermissions : (token, data) => FilteredTokenizedRequest('data', token, Api.GetAllAPermissionsByRole, data),
         create: (token, data) => FilteredTokenizedRequest('data', token, Api.CreateRole, data),
         update: (token, body) => FilteredTokenizedRequest('data', token, Api.UpdateRole, body),
-        assignrole: (token, data) => FilteredTokenizedRequest('data', token, Api.AssignRole, data),
-        assigndelete: (token, data) => FilteredTokenizedRequest('data', token, Api.AssignDeleteRole, data),
+        assignrolepermission: (token, data) => FilteredTokenizedRequest('data', token, Api.AssignRolePermission, data), //asigna permisos a roles
+        assignroleuser: (token, data) => FilteredTokenizedRequest('data', token, Api.AssignRoleUser, data), //asigna roles a usuarios
+        assigndeleteuser: (token, data) => FilteredTokenizedRequest('data', token, Api.AssignDeleteRoleUser, data), // eliminar asignacion de usuario cambiar nombre por usuarios
+        assigndeletepermission: (token, data) => FilteredTokenizedRequest('data', token, Api.AssignDeleteRolePermission, data), // eliminar permisos
         delete: (token, data) => FilteredTokenizedRequest('data', token, Api.DeleteRole, data)
     },
     auth: {

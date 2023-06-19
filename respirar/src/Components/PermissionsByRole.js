@@ -44,9 +44,14 @@ const PermissionsByRole = () => {
     navigate(-1);
   };
 
-  const deletePermission = async (permissionId) => {
+  const deleteAssigntPermission = async (permissionId) => {
     try {
-      await axios.delete(`http://localhost:3001/api/permissions/${permissionId}`);
+
+      ///assignt/delete/roles/:roleId/permissions/:permissionId
+
+      console.log("role id: " + roleId)
+      console.log("permissionId " + permissionId)
+      await axios.delete(`http://localhost:3001/api/assignt/delete/roles/${roleId}/permissions/${permissionId}`);
       console.log('Permiso eliminado correctamente');
       getPermissionsByRole();
     } catch (error) {
@@ -66,7 +71,7 @@ const PermissionsByRole = () => {
         roleId : roleId
       }
 
-      await axios.post(`http://localhost:3001/api/roles/assignt/permission`, body);
+      await axios.put(`http://localhost:3001/api/roles/assignt/permissions`, body);
       console.log('Permiso agregado correctamente');
       getPermissionsByRole();
       setSelectedPermission('');
@@ -84,7 +89,7 @@ const PermissionsByRole = () => {
             {permissions.map((permission) => (
               <div key={permission.id} className="list-group-item d-flex justify-content-between align-items-center">
                 {permission.name}
-                <button className="btn btn-danger" onClick={() => deletePermission(permission.id)}>
+                <button className="btn btn-danger" onClick={() => deleteAssigntPermission(permission.id)}>
                   Eliminar
                 </button>
               </div>
