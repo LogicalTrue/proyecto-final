@@ -12,7 +12,6 @@ import EditProfile from './Components/EditProfile';
 import RegisterForm from './Components/RegisterForm';
 import CreateRole from './Components/CreateRole';
 import CreatePermission from './Components/CreatePermission'
-import AssignPermission from './Components/AssignPermission';
 import AdminUserEdit from './Components/AdminEditUser'
 import RolesByUser from './Components/RolesByUser'
 import Confirmation from './Components/Confirmation'
@@ -37,7 +36,6 @@ function App() {
       <Route path="/rolesbyuser" element={<RolesByUser/>} />
       <Route path="/permissionsbyrole" element={<PermissionsByRole/>} />
       <Route path="/createpermission" element={<CreatePermission />} />
-      <Route path="/assignpermission" element={<AssignPermission />} />
       <Route path="/adminuseredit" element={<AdminUserEdit />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/editprofile" element={<EditProfile />} />
