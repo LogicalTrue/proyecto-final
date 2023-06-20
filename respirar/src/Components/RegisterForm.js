@@ -6,7 +6,7 @@ import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 const RegisterForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState('');
@@ -15,12 +15,12 @@ const RegisterForm = () => {
   const handleRegister = async () => {
     const validationErrors = {};
 
-    if (!username) {
-      validationErrors.username = 'Por favor, ingresa un correo electrónico válido.';
+    if (!email) {
+      validationErrors.email = 'Por favor, ingresa un correo electrónico válido.';
     }
 
-    if (!name) {
-      validationErrors.name = 'Por favor, ingrese un nombre de usuario válido';
+    if (!username) {
+      validationErrors.username = 'Por favor, ingrese un nombre de usuario válido';
     }
 
     if (!password) {
@@ -34,49 +34,37 @@ const RegisterForm = () => {
       validationErrors.confirmPassword = 'Por favor, asegúrate que las contraseñas coincidan.';
     }
 
+    await axios.post('http://localhost:3001/api/users', {
+      email: email,
+      username: username,
+      password: password
+    }).then(async (response)=>{
+      
+      const user = response.data.user;
+      const sendMail = await axios.post('http://localhost:3001/api/verify-email', {
+        user: { 
+          email: email,
+          id: user.id,
+          username: username
+        }
+      }).then((x)=>{
+        setSuccess('Registro exitoso. Te enviamos un mail para que termines tu registro');
+      })
+      
+    }).catch((error)=>{
+      validationErrors.email = error.response.data.error==='Email already used'?"No se puede crear el usuario porque el correo ya esta registrado":"Hubo un error al registrarse";
+    });
+
+    
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       setSuccess('');
       return;
     }
-
-    try {
-
-
-      const response = await axios.post('http://localhost:3001/api/users', {
-        email: username,
-        username: name,
-        password: password
-      });
-
-      const user = response.data.user;
-
-      console.log("Test user " + response.data.user.id)
-    
-      const sendMail = await axios.post('http://localhost:3001/api/verify-email', {
-      user: { 
-      email: username,
-      id: user.id,
-      name: name
-      }
-      })
-
-      console.log(sendMail)
-
-      setSuccess('Registro exitoso. ¡Ahora puedes iniciar sesión!');
-      setErrors({});
-      setTimeout(() => {
-        navigate('/');
-      }, 2000);
-    } catch (error) {
-      setErrors({});
-      console.error('Error de registración:', error);
-      setErrors({ registration: 'Error de registración. Por favor, verifica tus credenciales.' });
-    }
   };
 
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
     const emailValidation = e.target.checkValidity() ? '' : 'Por favor, ingresa un correo electrónico válido.';
     setErrors((prevState) => ({ ...prevState, email: emailValidation }));
   };
@@ -98,20 +86,20 @@ const RegisterForm = () => {
           <div className="col-md-6">
             <div className="form-group">
               <div
-                className={`form-group m-3 ${errors.name && 'was-validated'}`}
+                className={`form-group m-3 ${errors.username && 'was-validated'}`}
               >
                 <label htmlFor="name">Ingresá tu nombre de usuario:</label>
                 <input
                   type="text"
-                  id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  id="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   className={`form-control rounded-0 ${
-                    errors.name ? 'is-invalid' : ''
+                    errors.username ? 'is-invalid' : ''
                   }`}
                 />
-                {errors.name && (
-                  <div className="invalid-feedback">{errors.name}</div>
+                {errors.username && (
+                  <div className="invalid-feedback">{errors.username}</div>
                 )}
               </div>
             </div>
@@ -128,8 +116,8 @@ const RegisterForm = () => {
                 <input
                   type="text"
                   id="email"
-                  value={username}
-                  onChange={handleUsernameChange}
+                  value={email}
+                  onChange={handleEmailChange}
                   className={`form-control rounded-0 ${
                     errors.email ? 'is-invalid' : ''
                   }`}

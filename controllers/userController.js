@@ -71,7 +71,7 @@ const createUser = async (req, res) => {
 
   .catch((error)=>{
     if(config.api.debug) console.log(error.response.data.error);
-    res.status(400).json({ error: 'No se pudo crear el usuario'});
+    res.status(409).json({ error: error.response.data.error.message});
   });
 };
 
