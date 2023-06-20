@@ -16,7 +16,7 @@ async function TokenForCreateUser(token=null){
         return newToken
       })
       .catch((error)=>{
-        if(config.api.debug) console.log(error.response.data.error);
+        if(config.api.debug && 'response' in error) console.log(error.response.data.error);
         return null;
       });
     
