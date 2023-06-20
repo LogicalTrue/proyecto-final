@@ -11,7 +11,8 @@ const router = express.Router();
 router.use(function (req, res, next){
     //console.log(req.method, req.url, req.session.permissions);
 
-    if(req.session.permissions==null || !Array.isArray(req.session.permissions) || ("Admin" in req.session.permissions)){
+    if(req.session.permissions==null || !Array.isArray(req.session.permissions))// || ("Admin" in req.session.permissions))
+    {
         next('route');
         return;
     }

@@ -50,6 +50,9 @@ const components = {
         "Title": "Editar Perfil",
         "permissions":["Basic"]
     },
+    'CreateUserAsPublic': {
+        "permissions":["HABILITAR REGISTRO PUBLICO"]
+    },
 }
 
 export default components;

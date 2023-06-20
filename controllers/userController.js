@@ -61,7 +61,7 @@ const createUser = async (req, res) => {
     await keyrock.role.assignroleuser(token, {appId:config.api.client, roleId:"provider", userId:user.id})
     .catch((error)=>{if(config.api.debug) console.log(error.response.data.error);});
     
-    await keyrock.user.update(token, {user: {id:user.id, enabled:false, admin:true}})
+    await keyrock.user.update(token, {user: {id:user.id, enabled:false}})
     .catch((error) => {if(config.api.debug) console.log(error.response.data.error);});
     //Enviar mail de confirmacion con la direccion a la ruta de activacion
 

@@ -39,9 +39,6 @@ const Main = () => {
   const handleComponentClick = (component) => {
     setSelectedComponent(component);
   };
-  const getAllPermissions = ()=>{
-    
-  }
   const checkpermission = (component)=>{
       if(component in ComponentsConfig)
       for(let permission of ComponentsConfig[component].permissions){
@@ -90,14 +87,14 @@ const Main = () => {
           {  getComponentNav('Profile') }
           {  getComponentNav('EditProfile') }
 
-            {isAdmin && (
+            {checkpermission('CreateUserAsPublic') && (
               <>
               <li className='nav-item'>
                 <button
                   className={`nav-link btn btn-bold`}
                   onClick={() => handleChangeCreateUserAsPublic()}
                 >
-                  {CreateUserAsPublic ? 'Deshabilitar' : 'Habilitar'} registro
+                  {CreateUserAsPublic ? 'Deshabilitar' : 'Habilitar'} registro 
                 </button>
               </li>
             </>
