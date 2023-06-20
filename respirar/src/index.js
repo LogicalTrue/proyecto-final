@@ -14,11 +14,11 @@ import CreateRole from './Components/CreateRole';
 import CreatePermission from './Components/CreatePermission'
 import AdminUserEdit from './Components/AdminEditUser'
 import RolesByUser from './Components/RolesByUser'
-import Confirmation from './Components/Confirmation'
 import EditRole from './Components/EditRole'
 import Permissions from './Components/Permissions'
 import EditPermission from './Components/EditPermission'
 import PermissionsByRole from './Components/PermissionsByRole'
+import SuccessfulRegistration from './Components/SuccessfulRegistration'
 
 
 //Aca configuramos solamente rutas y a que componente va dirigido
@@ -41,7 +41,7 @@ function App() {
       <Route path="/editprofile" element={<EditProfile />} />
       <Route path="/register" element={<RegisterForm/>} />
       <Route path="/editrole" element={<EditRole/>} />
-      <Route path="/confirmation/:id" element={<Confirmation/>} />
+      <Route path="/sucessregister/:id" element={<SuccessfulRegistration/>} />
     </Routes>
   );
 }

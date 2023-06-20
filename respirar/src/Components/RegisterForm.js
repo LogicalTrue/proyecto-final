@@ -20,7 +20,7 @@ const RegisterForm = () => {
     }
 
     if (!name) {
-      validationErrors.name = 'Por favor, ingrese un nombre de usuario válido'
+      validationErrors.name = 'Por favor, ingrese un nombre de usuario válido';
     }
 
     if (!password) {
@@ -34,8 +34,6 @@ const RegisterForm = () => {
       validationErrors.confirmPassword = 'Por favor, asegúrate que las contraseñas coincidan.';
     }
 
-    
-
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       setSuccess('');
@@ -43,23 +41,37 @@ const RegisterForm = () => {
     }
 
     try {
+
+
       const response = await axios.post('http://localhost:3001/api/users', {
         email: username,
         username: name,
         password: password
       });
-      const user = response.data;
-      console.log(user);
+
+      const user = response.data.user;
+
+      console.log("Test user " + response.data.user.id)
+    
+      const sendMail = await axios.post('http://localhost:3001/api/verify-email', {
+      user: { 
+      email: username,
+      id: user.id,
+      name: name
+      }
+      })
+
+      console.log(sendMail)
+
       setSuccess('Registro exitoso. ¡Ahora puedes iniciar sesión!');
       setErrors({});
       setTimeout(() => {
         navigate('/');
       }, 2000);
-
     } catch (error) {
       setErrors({});
       console.error('Error de registración:', error);
-      setErrors('Error de registración. Por favor, verifica tus credenciales.');
+      setErrors({ registration: 'Error de registración. Por favor, verifica tus credenciales.' });
     }
   };
 
@@ -69,19 +81,24 @@ const RegisterForm = () => {
     setErrors((prevState) => ({ ...prevState, email: emailValidation }));
   };
 
-  const handleBack = async () => {
-      navigate('/');
-  }
+  const handleBack = () => {
+    navigate('/');
+  };
 
   return (
     <div className="container">
       <h1 className="display-3 m-3">Registrá tu cuenta</h1>
+      {success && (
+        <div className="alert alert-success" role="alert">
+          {success}
+        </div>
+      )}
       <div className="form-container">
-      <div className="row">
+        <div className="row">
           <div className="col-md-6">
             <div className="form-group">
               <div
-                className={`form-group m-3 ${errors.name && "was-validated"}`}
+                className={`form-group m-3 ${errors.name && 'was-validated'}`}
               >
                 <label htmlFor="name">Ingresá tu nombre de usuario:</label>
                 <input
@@ -90,7 +107,7 @@ const RegisterForm = () => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className={`form-control rounded-0 ${
-                    errors.name ? "is-invalid" : ""
+                    errors.name ? 'is-invalid' : ''
                   }`}
                 />
                 {errors.name && (
@@ -105,9 +122,7 @@ const RegisterForm = () => {
           <div className="col-md-6">
             <div className="form-group">
               <div
-                className={`form-group m-3 ${
-                  errors.email && "was-validated"
-                }`}
+                className={`form-group m-3 ${errors.email && 'was-validated'}`}
               >
                 <label htmlFor="email">Ingresá tu correo electrónico:</label>
                 <input
@@ -116,7 +131,7 @@ const RegisterForm = () => {
                   value={username}
                   onChange={handleUsernameChange}
                   className={`form-control rounded-0 ${
-                    errors.email ? "is-invalid" : ""
+                    errors.email ? 'is-invalid' : ''
                   }`}
                   required
                   pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
@@ -129,13 +144,12 @@ const RegisterForm = () => {
           </div>
         </div>
 
-
         <div className="row">
           <div className="col-md-6">
             <div className="form-group">
               <div
                 className={`form-group m-3 ${
-                  errors.password && "was-validated"
+                  errors.password && 'was-validated'
                 }`}
               >
                 <label htmlFor="password">Tu contraseña:</label>
@@ -145,7 +159,7 @@ const RegisterForm = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className={`form-control rounded-0 ${
-                    errors.password ? "is-invalid" : ""
+                    errors.password ? 'is-invalid' : ''
                   }`}
                   required
                   minLength="8"
@@ -164,7 +178,7 @@ const RegisterForm = () => {
             <div className="form-group">
               <div
                 className={`form-group m-3 ${
-                  errors.confirmPassword && "was-validated"
+                  errors.confirmPassword && 'was-validated'
                 }`}
               >
                 <label htmlFor="confirm-password">
@@ -176,7 +190,7 @@ const RegisterForm = () => {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className={`form-control rounded-0 ${
-                    errors.confirmPassword ? "is-invalid" : ""
+                    errors.confirmPassword ? 'is-invalid' : ''
                   }`}
                   required
                   minLength="8"
@@ -196,7 +210,6 @@ const RegisterForm = () => {
       <button className="btn btn-primary m-3" onClick={handleRegister}>
         Registrarse
       </button>
-      {success && <p>{success}</p>}
 
       <button className="btn btn-primary m-3" onClick={handleBack}>
         Volver
@@ -204,6 +217,5 @@ const RegisterForm = () => {
     </div>
   );
 };
-
 
 export default RegisterForm;

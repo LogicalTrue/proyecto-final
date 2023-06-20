@@ -2,6 +2,7 @@
 const keyrock = require('./integration/keyrockapi')
 const userController = require('./userController');
 const config = require('./integration/config.js');
+const { mailSenderController } = require('./integration/mailSenderController');
 
 // Dentro de este, recibe los parametros post anterior de usuario y contraseña
 // Se los envia a un archivo especial de integracion de keyrock, para comprobar
@@ -56,4 +57,14 @@ async function getPermission(token, user){
   return returns;
 }
 
-module.exports = { login };
+const mailSender = async (req, res) => {
+  console.log("Llegó a la función mailSender");
+  console.log("Usuario: ", req.body);
+  await mailSenderController(req.body.user).
+    then((user)=>res.status(200).json(user))
+  .catch((error)=>{
+    res.status(400).json({ error: 'No se pudo enviar el mail' });
+  });
+};
+
+module.exports = { login, mailSender };

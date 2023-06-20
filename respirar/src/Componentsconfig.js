@@ -24,7 +24,7 @@ const components = {
         "component":CreateRole,
         "onClick":'CreateRole',
         "Title": "Crear Roles",
-        "permissions":["CREAR ROLES"] //falla
+        "permissions":["CREAR ROLES"] 
     },
     'CreatePermission': { 
         "component":CreatePermission,

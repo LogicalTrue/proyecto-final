@@ -27,27 +27,19 @@ router.use(function (req, res, next){
 })
 
 
-// Rutas de autenticación
-// router.post('/register', userController.createUser);
-
-//Se invoca el archivo login, mediante un axios y luego se ejecuta un controlador, en este caso
-//el authController.login, que se encuentra en la carpeta controllers
-
+// Rutas de autenticacion y validacion
 router.post('/login', authController.login);
-//router.post('/verify-email', authController.verifyEmail);
-//router.post('/reset-password', authController.resetPassword);
+router.post('/verify-email', authController.mailSender);
+router.get('/users/activate/:id', userController.activate);
+router.post('/changeCreateUserAsPublic', userController.changeCreateUserAsPublic);
 
-// Rutas protegidas por el middleware de autenticación
-//router.use(authMiddleware);
 
 // Rutas de usuarios
 router.get('/users', userController.getUsers);
 router.get('/users/:id', userController.getUser);
 router.get('/user/:id/roles', userController.getRolesByUser); // ok
-router.get('/users/activate/:id', userController.activate)
 router.patch('/users/', userController.updateUser);
 router.post('/users', userController.createUser);
-router.post('/changeCreateUserAsPublic', userController.changeCreateUserAsPublic);
 router.delete('/users/:id', userController.deleteUser); // ok
 
 // Rutas de roles

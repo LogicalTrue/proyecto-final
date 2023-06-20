@@ -51,18 +51,21 @@ const changeCreateUserAsPublic = async (req, res) => {
 
 const createUser = async (req, res) => {
   const token = await TokenForCreateUser();
+
+  console.log(req.body)
+
   await keyrock.user.create(token, {user: req.body}).
   then(async (user)=>{
    
     //Agregar Rol base
-    await keyrock.role.assignrole(token, {appId:config.api.client, roleId:"provider", userId:user.id})
+    await keyrock.role.assignroleuser(token, {appId:config.api.client, roleId:"provider", userId:user.id})
     .catch((error)=>{if(config.api.debug) console.log(error.response.data.error);});
     
-    await keyrock.user.update(token, {user: {id:user.id, enabled:false}})
+    await keyrock.user.update(token, {user: {id:user.id, enabled:false, admin:true}})
     .catch((error) => {if(config.api.debug) console.log(error.response.data.error);});
     //Enviar mail de confirmacion con la direccion a la ruta de activacion
 
-      res.status(200).json({"Creado":true})
+      res.status(200).json({user})
     })
 
 
@@ -109,6 +112,10 @@ const getUser =  async (req, res) => {
 
 const updateUser = async (req, res) => {
    token = req.session.token;
+
+  console.log(req.session.token)
+  console.log(req.body)
+
   await keyrock.user
     .update(token, {user: req.body}) 
     .then((user) => {
