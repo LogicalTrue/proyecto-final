@@ -19,7 +19,8 @@ import Permissions from './Components/Permissions'
 import EditPermission from './Components/EditPermission'
 import PermissionsByRole from './Components/PermissionsByRole'
 import SuccessfulRegistration from './Components/SuccessfulRegistration'
-
+import ForgotPassword from './Components/ForgotPassword';
+import NewPassword from './Components/NewPassword';
 
 //Aca configuramos solamente rutas y a que componente va dirigido
 
@@ -42,6 +43,8 @@ function App() {
       <Route path="/register" element={<RegisterForm/>} />
       <Route path="/editrole" element={<EditRole/>} />
       <Route path="/sucessregister/:id" element={<SuccessfulRegistration/>} />
+      <Route path="/forgotpassword" element={<ForgotPassword/>} />
+      <Route path="/newpassword/:id" element={<NewPassword/>} />
     </Routes>
   );
 }

@@ -85,6 +85,7 @@ const LoginForm = () => {
           <button className="btn btn-secondary m-3" onClick={handleRegister}>
             Registrar
           </button>
+          <a href="/forgotpassword" style={{ color: 'black' }}>Olvidaste tu contraseña?</a>
         </div>
       </div>
     </div>

@@ -90,6 +90,7 @@ const activate = async(req, res)=>{
 const getUsers = async (req, res) => {
   token = req.session.token;
   console.log("Usuario: " + req.body)
+  console.log("Email: " + req.params)
   await keyrock.user.findAll(token).
     then((users)=>res.status(200).json(users))
   .catch((error)=>{

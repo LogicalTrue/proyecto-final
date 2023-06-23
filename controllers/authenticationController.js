@@ -67,4 +67,24 @@ const mailSender = async (req, res) => {
   });
 };
 
-module.exports = { login, mailSender };
+const forgotpassword = async (req, res) => {
+  const email = req.body.email; // Obtener el correo electrónico desde la solicitud
+
+  try {
+    const user = await User.findOne({ email: email }); // Buscar el usuario por el correo electrónico
+
+    if (!user) {
+      // Si no se encuentra ningún usuario con ese correo electrónico
+      return res.status(404).json({ error: 'No se encontró ningún usuario con ese correo electrónico' });
+    }
+    S
+    // Proceder con el envío del correo electrónico para restablecer la contraseña
+    await mailSenderController(user);
+
+    res.status(200).json({ message: 'El correo electrónico de restablecimiento de contraseña ha sido enviado' });
+  } catch (error) {
+    res.status(500).json({ error: 'Ocurrió un error al procesar la solicitud' });
+  }
+};
+
+module.exports = { login, mailSender, forgotpassword };

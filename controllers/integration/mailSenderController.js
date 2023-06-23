@@ -17,8 +17,8 @@ async function mailSenderController(user) {
     from: "respirarnoreply@gmail.com",
     to: user.email,
     subject: "Verificación de correo electrónico RESPIRAR " + user.email,
-    html: 'Bienvenido, ' + user.email + '. Haz clic en el siguiente enlace para verificar tu correo electrónico: <a href="http://localhost:3001/sucessregister/' + user.id + '">aca</a>',
-    text: "Bienvenido, " + user.email + " haz clic en el siguiente enlace para verificar tu correo electrónico: http://localhost:3001/activate-account",
+    html: 'Bienvenido, ' + user.name + '. Haz clic en el siguiente enlace para verificar tu correo electrónico: <a href="http://localhost:3001/newpassword/' + user.id + '">aca</a>',
+    text: "Bienvenido, " + user.name + " haz clic en el siguiente enlace para verificar tu correo electrónico: http://localhost:3001/activate-account",
     body: user.id,
   };
   

@@ -33,6 +33,7 @@ router.post('/login', authController.login);
 router.post('/verify-email', authController.mailSender);
 router.get('/users/activate/:id', userController.activate);
 router.post('/changeCreateUserAsPublic', userController.changeCreateUserAsPublic);
+router.post('/resetPassword', authController.forgotpassword)
 
 
 // Rutas de usuarios
