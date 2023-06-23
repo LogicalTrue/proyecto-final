@@ -67,7 +67,7 @@ const Main = () => {
     return (
       <div className="container-fluid mt-5 main-container">
         <div className="welcome-message">
-          <h2 className="glow-text">Bienvenido(a) a la página respirar</h2>
+          <h2 className="glow-text">Bienvenido a la página Respirar</h2>
           <p className="fade-in-text">Seleccione una opción del menú para comenzar.</p>
         </div>
       </div>

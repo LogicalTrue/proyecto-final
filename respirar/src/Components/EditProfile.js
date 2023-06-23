@@ -65,7 +65,7 @@ const EditProfile = () => {
 
   return (
     <div className="container">
-      <h1>Editar Perfil</h1>
+      <h1>Editar Mí Perfil</h1>
 
       {successMessage && (
         <div className="alert alert-success" role="alert">

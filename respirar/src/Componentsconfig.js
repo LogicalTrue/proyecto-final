@@ -47,7 +47,7 @@ const components = {
     'EditProfile': { 
         "component":EditProfile,
         "onClick":'EditProfile',
-        "Title": "Editar Perfil",
+        "Title": "Editar Mí Perfil",
         "permissions":["Basic"]
     },
     'CreateUserAsPublic': {
