@@ -41,7 +41,7 @@ const RegisterForm = () => {
     }).then(async (response)=>{
       
       const user = response.data.user;
-      const sendMail = await axios.post('http://localhost:3001/api/verify-email', {
+      const sendMail = await axios.post('http://localhost:3001/api/send/verifyemail', {
         user: { 
           email: email,
           id: user.id,

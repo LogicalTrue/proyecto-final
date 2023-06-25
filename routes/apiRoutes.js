@@ -30,10 +30,11 @@ router.use(function (req, res, next){
 
 // Rutas de autenticacion y validacion
 router.post('/login', authController.login);
-router.post('/verify-email', authController.mailSender);
+router.post('/send/verifyemail', authController.mailSenderVerify);
+router.post('/send/resetpassword', authController.mailSenderReset)
 router.get('/users/activate/:id', userController.activate);
 router.post('/changeCreateUserAsPublic', userController.changeCreateUserAsPublic);
-router.post('/resetPassword', authController.forgotpassword)
+
 
 
 // Rutas de usuarios

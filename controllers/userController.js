@@ -24,6 +24,18 @@ async function TokenForCreateUser(token=null){
     return token;
 }
 
+async function getToken(key = 'token_key') {
+  await storage.init().catch((error) => {
+    if (config.api.debug) console.log(error);
+  });
+
+  let token = await storage.get(key).catch((error) => {
+    if (config.api.debug) console.log(error);
+  });
+
+  return token;
+}
+
 async function getStateCreateUserAsPublic(){
   return await TokenForCreateUser() !=null;
 }
@@ -88,9 +100,7 @@ const activate = async(req, res)=>{
 }
 
 const getUsers = async (req, res) => {
-  token = req.session.token;
-  console.log("Usuario: " + req.body)
-  console.log("Email: " + req.params)
+  const token = await TokenForCreateUser();
   await keyrock.user.findAll(token).
     then((users)=>res.status(200).json(users))
   .catch((error)=>{

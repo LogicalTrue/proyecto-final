@@ -57,34 +57,29 @@ async function getPermission(token, user){
   return returns;
 }
 
-const mailSender = async (req, res) => {
-  console.log("Llegó a la función mailSender");
-  console.log("Usuario: ", req.body);
-  await mailSenderController(req.body.user).
+const mailSenderVerify = async (req, res) => {
+  let html = 'Bienvenido, ' + req.body.user.email + '. Haz clic en el siguiente enlace para verificar tu correo electrónico: <a href="http://localhost:3001/sucessregister/' + req.body.user.id + '">aca</a>';
+  let text = "Bienvenido, " + req.body.user.name + " haz clic en el siguiente enlace para verificar tu correo electrónico: http://localhost:3001/activate-account";
+  let subject = 'Verificación de correo electrónico RESPIRAR ' + req.body.user.email
+
+  await mailSenderController(req.body.user, subject, html, text).
     then((user)=>res.status(200).json(user))
   .catch((error)=>{
     res.status(400).json({ error: 'No se pudo enviar el mail' });
   });
 };
 
-const forgotpassword = async (req, res) => {
-  const email = req.body.email; // Obtener el correo electrónico desde la solicitud
+const mailSenderReset = async (req, res) => {
+  let html = 'Bienvenido, ' + req.body.user.email + '. Haz clic en el siguiente enlace para modificar tu contraseña: <a href="http://localhost:3001/sucesschangepassword/' + req.body.user.id + '">aca</a>';
+  let text = 'Bienvenido, ' + req.body.user.username + ' haz clic en el siguiente enlace para modificar tu contraseña: http://localhost:3001/activate-account';
+  let subject = 'Cambio de contraseña RESPIRAR ' + req.body.user.email
 
-  try {
-    const user = await User.findOne({ email: email }); // Buscar el usuario por el correo electrónico
+  await mailSenderController(req.body.user, subject, html, text).
+  then((user)=>res.status(200).json(user))
+.catch((error)=>{
+  res.status(400).json({ error: 'No se pudo enviar el mail' });
+});
 
-    if (!user) {
-      // Si no se encuentra ningún usuario con ese correo electrónico
-      return res.status(404).json({ error: 'No se encontró ningún usuario con ese correo electrónico' });
-    }
-    S
-    // Proceder con el envío del correo electrónico para restablecer la contraseña
-    await mailSenderController(user);
-
-    res.status(200).json({ message: 'El correo electrónico de restablecimiento de contraseña ha sido enviado' });
-  } catch (error) {
-    res.status(500).json({ error: 'Ocurrió un error al procesar la solicitud' });
-  }
 };
 
-module.exports = { login, mailSender, forgotpassword };
+module.exports = { login, mailSenderVerify, mailSenderReset };

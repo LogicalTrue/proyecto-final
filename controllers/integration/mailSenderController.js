@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 
-async function mailSenderController(user) {
+async function mailSenderController(user,subject, html, text) {
   console.log("Hola, entro:" + user.id);
 
   const transporter = nodemailer.createTransport({
@@ -16,9 +16,9 @@ async function mailSenderController(user) {
   const mailOptions = {
     from: "respirarnoreply@gmail.com",
     to: user.email,
-    subject: "Verificación de correo electrónico RESPIRAR " + user.email,
-    html: 'Bienvenido, ' + user.name + '. Haz clic en el siguiente enlace para verificar tu correo electrónico: <a href="http://localhost:3001/newpassword/' + user.id + '">aca</a>',
-    text: "Bienvenido, " + user.name + " haz clic en el siguiente enlace para verificar tu correo electrónico: http://localhost:3001/activate-account",
+    subject: subject,
+    html: html,
+    text: text,
     body: user.id,
   };
   

@@ -26,24 +26,41 @@ const ForgotPassword = () => {
       return;
     }
 
+   
 
-    
 
     try {
-        console.log(email)
-        console.log({email})
+      const usersResponse = await axios.get('http://localhost:3001/api/users');
+      const users = usersResponse.data;
+      
+      const getUserByEmail = (email, users) => {
+        return users.find((user) => user.email === email);
+      };
+      
+      const user = getUserByEmail(email, users);
+      
+      if (user) {
+        const response = await axios.post('http://localhost:3001/api/send/resetpassword', {
+          user: { 
+            email: user.email,
+            id: user.id,
+            username: user.username
+          }
+        }
+      )
+      console.log(response)
 
-       let userMail = await axios.get(`http://localhost:3001/api/users/${email}`);
-        console.log(userMail);
-      await axios.post('http://localhost:3001/api/resetPassword', email);
+      } else {
+        console.log("El correo electrónico no existe");
+      }
 
-      setSuccessMessage('Se ha enviado un correo electrónico para restablecer su contraseña.');
       setEmail('');
     } catch (error) {
       setErrorMessage('Error al enviar el correo electrónico. Por favor, inténtelo nuevamente.');
       console.error('Error al enviar el correo electrónico:', error);
-    }
-  };
+    }}
+
+
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -77,9 +94,8 @@ const ForgotPassword = () => {
                   id="email"
                   value={email}
                   onChange={handleEmailChange}
-                  className={`form-control rounded-0 ${
-                    errors.email ? 'is-invalid' : ''
-                  }`}
+                  className={`form-control rounded-0 ${errors.email ? 'is-invalid' : ''
+                    }`}
                   required
                   pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
                 />
@@ -95,8 +111,8 @@ const ForgotPassword = () => {
         </button>
 
         <button className="btn btn-primary m-3" onClick={handleBack}>
-        Volver
-      </button>
+          Volver
+        </button>
       </form>
     </div>
   );
