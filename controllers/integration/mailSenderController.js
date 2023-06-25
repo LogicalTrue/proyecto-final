@@ -9,7 +9,7 @@ async function mailSenderController(user, subject, html, text) {
     secure: true,
     auth: {
       user: "respirarnoreply@gmail.com",
-      pass: "etzgbwnzwnvkpebw",
+      pass: "nddstgbaviaksjij",
     },
   });
 
