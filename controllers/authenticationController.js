@@ -70,7 +70,7 @@ const mailSenderVerify = async (req, res) => {
 };
 
 const mailSenderReset = async (req, res) => {
-  let html = 'Bienvenido, ' + req.body.user.email + '. Haz clic en el siguiente enlace para modificar tu contraseña: <a href="http://localhost:3001/sucesschangepassword/' + req.body.user.id + '">aca</a>';
+  let html = 'Bienvenido, ' + req.body.user.email + '. Haz clic en el siguiente enlace para modificar tu contraseña: <a href="http://localhost:3001/newpassword/' + req.body.user.id + '">aca</a>';
   let text = 'Bienvenido, ' + req.body.user.username + ' haz clic en el siguiente enlace para modificar tu contraseña: http://localhost:3001/activate-account';
   let subject = 'Cambio de contraseña RESPIRAR ' + req.body.user.email
 

@@ -123,10 +123,9 @@ const getUser =  async (req, res) => {
 
 const updateUser = async (req, res) => {
    token = req.session.token;
+  if(token==null) token = await TokenForCreateUser(); 
 
-  console.log(req.session.token)
-  console.log(req.body)
-
+  console.log("ahora " + token)
   await keyrock.user
     .update(token, {user: req.body}) 
     .then((user) => {

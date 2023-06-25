@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 
-async function mailSenderController(user,subject, html, text) {
+async function mailSenderController(user, subject, html, text) {
   console.log("Hola, entro:" + user.id);
 
   const transporter = nodemailer.createTransport({

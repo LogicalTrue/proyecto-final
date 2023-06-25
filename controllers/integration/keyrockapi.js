@@ -117,7 +117,8 @@ const Api = {
     }),
 
     UpdateUser: (token, data) => {
-        console.log("dentro de update : " + data.user.enabled)
+        console.log("dentro de update : " + data.user.id)
+        console.log("dentro de update : " + data.user.password)
         return {
 
             baseURL: ApiRoute,

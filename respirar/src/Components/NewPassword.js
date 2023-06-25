@@ -10,8 +10,6 @@ const NewPassword = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-
-
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
     validatePassword(e.target.value, confirmPassword);
@@ -47,13 +45,32 @@ const NewPassword = () => {
     navigate('/');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (Object.keys(errors).length > 0) {
+      // Mostrar mensajes de error y abortar actualización
+      return;
+    }
 
-    setSuccessMessage('Contraseña actualizada exitosamente.');
-    setPassword('');
-    setConfirmPassword('');
+    const body = {
+      id: id,
+      password: password,
+    };
+
+    try {
+      const updateResponse = await axios.patch('http://localhost:3001/api/users/', body);
+      const updatedProfile = updateResponse.data;
+
+      // Actualizar el perfil correctamente
+      console.log('Perfil actualizado:', updatedProfile);
+      setSuccessMessage('Contraseña actualizada exitosamente.');
+      setPassword('');
+      setConfirmPassword('');
+    } catch (error) {
+      setErrors('Error al actualizar el perfil. Por favor, inténtelo nuevamente.');
+      console.error('Error al actualizar el perfil:', error);
+    }
   };
 
   return (
@@ -78,15 +95,13 @@ const NewPassword = () => {
           {errors.password && <div className="invalid-feedback">{errors.password}</div>}
         </div>
         <div className="form-group">
-          <label htmlFor="confirmPassword">Nueva Contraseña:</label>
+          <label htmlFor="confirmPassword">Confirmar Contraseña:</label>
           <input
             type="password"
             id="confirmPassword"
             value={confirmPassword}
             onChange={handleConfirmPasswordChange}
-            className={`form-control rounded-0 ${
-              errors.confirmPassword ? 'is-invalid' : ''
-            }`}
+            className={`form-control rounded-0 ${errors.confirmPassword ? 'is-invalid' : ''}`}
             required
           />
           {errors.confirmPassword && (
