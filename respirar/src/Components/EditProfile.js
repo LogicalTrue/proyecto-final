@@ -23,7 +23,6 @@ const EditProfile = () => {
       const response = await axios.get(`http://localhost:3001/api/users/${state.user.id}`);
       const userProfileData = response.data.user;
       setProfile(userProfileData);
-      setUsername(userProfileData.username);
       setDescription(userProfileData.description);
       setWebsite(userProfileData.website);
     } catch (error) {
@@ -65,7 +64,7 @@ const EditProfile = () => {
 
   return (
     <div className="container">
-      <h1>Editar Mí Perfil</h1>
+      <h1>Editar Mi Perfil</h1>
 
       {successMessage && (
         <div className="alert alert-success" role="alert">
@@ -80,33 +79,44 @@ const EditProfile = () => {
       )}
 
       <div className="form-group">
+        <label htmlFor="username">Nombre:</label>
         <input
           type="text"
           className="form-control"
+          id="username"
           placeholder="Nuevo nombre de usuario"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
         <br />
+
+        <label htmlFor="password">Contraseña:</label>
         <input
           type="password"
           className="form-control"
+          id="password"
           placeholder="Nuevo password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <br />
+
+        <label htmlFor="description">Descripción:</label>
         <input
           type="text"
           className="form-control"
+          id="description"
           placeholder="Nueva descripción"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
         <br />
+
+        <label htmlFor="website">Sitio web:</label>
         <input
           type="text"
           className="form-control"
+          id="website"
           placeholder="Nuevo sitio web"
           value={website}
           onChange={(e) => setWebsite(e.target.value)}

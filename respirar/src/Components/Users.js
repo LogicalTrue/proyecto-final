@@ -93,7 +93,7 @@ const Users = () => {
             <table className="table table-striped">
               <thead>
                 <tr>
-                  <th>Username</th>
+                  <th>Nombre de usuario</th>
                   <th>Email</th>
                   <th>Acciones</th>
                 </tr>
