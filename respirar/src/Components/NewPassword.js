@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -9,6 +9,16 @@ const NewPassword = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const { id } = useParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (successMessage) {
+      const timer = setTimeout(() => {
+        navigate('/');
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage, navigate]);
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);

@@ -109,9 +109,7 @@ const RegisterForm = () => {
         <div className="row">
           <div className="col-md-6">
             <div className="form-group">
-              <div
-                className={`form-group m-3 ${errors.email && 'was-validated'}`}
-              >
+              <div className="form-group m-3">
                 <label htmlFor="email">Ingresá tu correo electrónico:</label>
                 <input
                   type="text"
