@@ -32,7 +32,7 @@ const CreateRole = () => {
       const roleExists = roles.some(role => role.name === roleName);
       if (roleExists) {
         // El roleName ya existe, mostrar un mensaje de error
-        setErrorMessage('El roleName ya existe');
+        setErrorMessage('El rol ya existe');
         return;
       }
 
